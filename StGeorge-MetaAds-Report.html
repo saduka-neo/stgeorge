@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>St George — Meta Ads: Performance &amp; Trends</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#15213B; --ink-soft:#2A3650; --paper:#FBFAF7; --card:#FFFFFF;
+  --crimson:#B11E2F; --crimson-soft:#D98A91; --crimson-wash:#FBEEEF;
+  --gold:#B0822A; --gold-wash:#F7F0E0; --teal:#2C6E70; --teal-wash:#E6EFEF;
+  --line:#E7E3DA; --line-strong:#D3CEC2; --muted:#6E7587; --muted-2:#9AA0AE;
+  --good:#2C7A52; --warn:#B0822A; --bad:#B11E2F;
+  --shadow:0 1px 2px rgba(21,33,59,.04),0 8px 28px rgba(21,33,59,.06);
+  --shadow-lg:0 2px 6px rgba(21,33,59,.06),0 18px 48px rgba(21,33,59,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);
+  line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 0;
+}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* ── Heraldic cross signature mark ── */
+.cross{position:relative;width:1em;height:1em;display:inline-block;flex:none}
+.cross::before,.cross::after{content:"";position:absolute;background:var(--crimson)}
+.cross::before{left:42%;top:0;width:16%;height:100%}
+.cross::after{top:42%;left:0;height:16%;width:100%}
+
+/* ── Masthead ── */
+.masthead{border-bottom:1.5px solid var(--ink);background:var(--paper);position:relative;z-index:20}
+.mast-top{display:flex;align-items:center;justify-content:space-between;padding:18px 0 16px}
+.brand{display:flex;align-items:center;gap:13px}
+.brand .cross{font-size:30px}
+.brand-txt h1{font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:-.01em;line-height:1.1}
+.brand-txt p{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.mast-meta{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--muted);line-height:1.7}
+.mast-meta b{color:var(--ink);font-weight:600}
+
+/* ── Nav ── */
+nav.tabs{position:sticky;top:0;z-index:30;background:rgba(251,250,247,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.tabs-inner{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tab{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);background:none;border:none;padding:15px 15px 13px;cursor:pointer;white-space:nowrap;
+  border-bottom:2px solid transparent;transition:color .15s,border-color .15s;font-weight:500}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--crimson);border-bottom-color:var(--crimson)}
+.tab .n{color:var(--muted-2);margin-right:7px}
+.tab.active .n{color:var(--crimson)}
+
+/* ── Sections ── */
+section.panel{display:none;padding:46px 0 30px;animation:fade .4s ease}
+section.panel.show{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson);font-weight:500;display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--crimson)}
+h2.sec{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,40px);letter-spacing:-.02em;line-height:1.05;max-width:18ch}
+.sec-lede{font-size:16px;color:var(--ink-soft);max-width:62ch;margin-top:14px;line-height:1.6}
+.sec-lede b{color:var(--ink);font-weight:600}
+
+/* ── Hero ── */
+.hero{padding:54px 0 30px}
+.hero-thesis{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,5.2vw,56px);line-height:1.04;letter-spacing:-.025em;max-width:20ch}
+.hero-thesis em{font-style:italic;color:var(--crimson)}
+.hero-sub{font-size:16.5px;color:var(--ink-soft);max-width:60ch;margin-top:20px;line-height:1.6}
+.hero-sub b{color:var(--ink);font-weight:600}
+
+/* ── KPI grid ── */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);margin-top:34px;box-shadow:var(--shadow)}
+.kpi{padding:22px 22px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative}
+.kpi:nth-child(4n){border-right:none}
+.kpi:nth-last-child(-n+4){border-bottom:none}
+.kpi .lab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
+.kpi .val{font-family:'Fraunces',serif;font-weight:600;font-size:33px;letter-spacing:-.02em;margin-top:10px;line-height:1}
+.kpi .val .cur{font-size:19px;color:var(--muted);font-weight:500;margin-right:1px;vertical-align:.06em}
+.kpi .sub{font-size:12px;color:var(--muted);margin-top:8px}
+.kpi.accent .val{color:var(--crimson)}
+
+/* ── Generic grid + cards ── */
+.grid{display:grid;gap:20px;margin-top:30px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+.g-2-1{grid-template-columns:1.5fr 1fr}.g-1-2{grid-template-columns:1fr 1.6fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:var(--shadow)}
+.card h3{font-family:'Fraunces',serif;font-weight:600;font-size:18px;letter-spacing:-.01em}
+.card .ch-sub{font-size:12.5px;color:var(--muted);margin-top:4px;margin-bottom:6px}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.chart-box{position:relative;width:100%}
+
+/* ── Insight callouts ── */
+.callout{display:flex;gap:14px;padding:16px 18px;border-radius:12px;background:var(--crimson-wash);border:1px solid #F0DADC;margin-top:20px}
+.callout .cross{font-size:18px;margin-top:1px}
+.callout p{font-size:14px;color:var(--ink-soft);line-height:1.55}
+.callout p b{color:var(--ink)}
+.callout.gold{background:var(--gold-wash);border-color:#ECE0C4}
+.callout.gold .cross::before,.callout.gold .cross::after{background:var(--gold)}
+.callout.teal{background:var(--teal-wash);border-color:#CFE0E0}
+.callout.teal .cross::before,.callout.teal .cross::after{background:var(--teal)}
+
+/* ── Stat row ── */
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.stat{padding:4px 0}
+.stat .v{font-family:'Fraunces',serif;font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.stat .l{font-size:12px;color:var(--muted);margin-top:7px}
+
+/* ── Tables ── */
+.tbl-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:22px 0 14px}
+.search{flex:1;min-width:200px;position:relative}
+.search input{width:100%;font-family:'IBM Plex Sans';font-size:13.5px;padding:10px 14px 10px 34px;border:1px solid var(--line-strong);border-radius:9px;background:var(--card);color:var(--ink)}
+.search input:focus{outline:2px solid var(--crimson);outline-offset:-1px;border-color:var(--crimson)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted)}
+.chips{display:flex;gap:7px}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:8px 13px;border:1px solid var(--line-strong);border-radius:20px;background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s;font-weight:500}
+.chip:hover{border-color:var(--ink-soft);color:var(--ink)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:13px;background:var(--card);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:right;padding:14px 14px;border-bottom:1.5px solid var(--line-strong);white-space:nowrap;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--card)}
+thead th:first-child{text-align:left}
+thead th:hover{color:var(--ink)}
+thead th .ar{opacity:.35;margin-left:3px;font-size:9px}
+thead th.sorted .ar{opacity:1;color:var(--crimson)}
+tbody td{padding:12px 14px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+tbody td:first-child{text-align:left;white-space:normal;min-width:230px;font-weight:500;color:var(--ink)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#FCFBF8}
+.pill{display:inline-flex;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:5px;font-weight:600}
+.pill.wa{background:var(--crimson-wash);color:var(--crimson)}
+.pill.lead{background:var(--gold-wash);color:var(--gold)}
+.muted-cell{color:var(--muted-2)}
+.cpr-good{color:var(--good);font-weight:600}
+.cpr-mid{color:var(--ink)}
+.cpr-bad{color:var(--bad);font-weight:600}
+.barcell{position:relative}
+.barcell .bar{position:absolute;left:0;top:0;bottom:0;background:var(--crimson-wash);z-index:0;border-radius:0}
+.barcell span{position:relative;z-index:1}
+
+/* ── Ranking bars ── */
+.rankgrid{display:grid;gap:18px;margin-top:6px}
+.rankrow .rr-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px}
+.rankrow .rr-top .l{color:var(--ink);font-weight:500}
+.rankrow .rr-top .v{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:11.5px}
+.rbar{height:9px;border-radius:5px;background:var(--line);overflow:hidden;display:flex}
+.rbar i{height:100%;display:block}
+.rbar .above{background:var(--good)}.rbar .avg{background:var(--gold)}.rbar .below{background:var(--crimson)}
+.rlegend{display:flex;gap:16px;margin-top:14px;font-size:11.5px;color:var(--muted)}
+.rlegend span{display:flex;align-items:center;gap:6px}
+.rlegend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+/* ── Playbook ── */
+.plays{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+.play{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.play::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--crimson)}
+.play.gold::before{background:var(--gold)}.play.teal::before{background:var(--teal)}.play.ink::before{background:var(--ink)}
+.play .pnum{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted);font-weight:600}
+.play h4{font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin:9px 0 9px;letter-spacing:-.01em;line-height:1.2}
+.play p{font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.play p b{color:var(--ink)}
+.play .tag{display:inline-block;margin-top:13px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--crimson);background:var(--crimson-wash);padding:4px 9px;border-radius:6px;font-weight:600}
+.play.gold .tag{color:var(--gold);background:var(--gold-wash)}
+.play.teal .tag{color:var(--teal);background:var(--teal-wash)}
+.play.ink .tag{color:var(--ink);background:#EEEDE8}
+
+/* ── Timeline metric toggle ── */
+.metric-toggle{display:flex;gap:5px;flex-wrap:wrap}
+.metric-toggle button{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--card);color:var(--muted);cursor:pointer;font-weight:500;transition:all .15s}
+.metric-toggle button:hover{color:var(--ink);border-color:var(--ink-soft)}
+.metric-toggle button.on{background:var(--crimson);color:#fff;border-color:var(--crimson)}
+
+/* ── Footer ── */
+footer{border-top:1.5px solid var(--ink);margin-top:50px;padding:30px 0 50px}
+footer .f-in{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+footer p{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--muted);line-height:1.7}
+footer b{color:var(--ink)}
+
+.note{font-size:12px;color:var(--muted-2);margin-top:14px;line-height:1.5;font-style:italic}
+
+@media(max-width:920px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .kpi:nth-child(4n){border-right:1px solid var(--line)}
+  .kpi:nth-child(2n){border-right:none}
+  .kpi:nth-last-child(-n+4){border-bottom:1px solid var(--line)}
+  .kpi:nth-last-child(-n+2){border-bottom:none}
+  .g2,.g3,.g-2-1,.g-1-2,.plays{grid-template-columns:1fr}
+  .statrow{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .wrap{padding:0 18px}
+  .kpis{grid-template-columns:1fr}
+  .kpi{border-right:none!important}
+  .mast-meta{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* view switcher + dual-report */
+.viewswitch{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.viewswitch .wrap{display:flex;gap:8px;padding:11px 0;justify-content:center;align-items:center;flex-wrap:wrap}
+.viewswitch .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-right:6px}
+.viewswitch button{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:9px 18px;border:1px solid var(--line-strong);border-radius:9px;background:var(--card);color:var(--muted);cursor:pointer;font-weight:600;transition:all .15s}
+.viewswitch button:hover{color:var(--ink);border-color:var(--ink-soft)}
+.viewswitch button.on{background:var(--crimson);color:#fff;border-color:var(--crimson)}
+.view{display:none}.view.show{display:block}
+.view nav.tabs{top:48px}
+/* trend-report additions */
+.delta-up{color:var(--bad,#B11E2F);font-weight:600}.delta-dn{color:var(--good);font-weight:600}.delta-flat{color:var(--muted)}
+.legend-inline{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
+.legend-inline span{display:flex;align-items:center;gap:7px}
+.legend-inline i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.legend-inline i.dash{background:repeating-linear-gradient(90deg,currentColor 0 4px,transparent 4px 7px);height:2px}
+.bignum{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.02em;line-height:1}
+.minicard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow)}
+.minirow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+.minicard .lab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.minicard .v{font-family:'Fraunces',serif;font-size:25px;font-weight:600;margin-top:9px;letter-spacing:-.02em}
+.minicard .d{font-size:11.5px;margin-top:7px}
+@media(max-width:920px){.minirow{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.minirow{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap mast-top">
+    <div class="brand">
+      <span class="cross" aria-hidden="true"></span>
+      <div class="brand-txt">
+        <h1>St George Teacher Training Institute</h1>
+        <p>Meta Ads — Performance &amp; Trend Analysis</p>
+      </div>
+    </div>
+    <div class="mast-meta">
+      <div>Jan 1 – Jun 12 <b>2026</b></div>
+      <div>24 weeks · stgeorgeinstitute.lk</div>
+    </div>
+  </div>
+</header>
+
+<div class="viewswitch">
+  <div class="wrap">
+    <span class="lbl">Report</span>
+    <button class="on" data-v="perf">Performance Review</button>
+    <button data-v="trends">Trend &amp; Cost Behaviour</button>
+  </div>
+</div>
+
+<div id="view-perf" class="view show">
+  <nav class="tabs"><div class="wrap"><div class="tabs-inner" id="tabbar"></div></div></nav>
+  <main class="wrap" id="main"></main>
+</div>
+
+<div id="view-trends" class="view">
+  <nav class="tabs"><div class="wrap"><div class="tabs-inner" id="tabbar"></div></div></nav>
+  <main class="wrap" id="main"></main>
+</div>
+
+<footer>
+  <div class="wrap f-in">
+    <p><b>St George Teacher Training Institute</b> — Meta Ads Manager export · WhatsApp &amp; Lead campaigns<br>
+    Currency in USD · attribution 7-day click / 1-day view · prepared 13 Jun 2026</p>
+    <span class="cross" style="font-size:26px" aria-hidden="true"></span>
+  </div>
+</footer>
+
+<script>
+const DATA = {"kpi": {"spend": 10859.71, "results": 8890, "impressions": 7071579, "clicks": 48806, "cpr": 1.22, "ctr": 0.69, "cpc": 0.22, "cpm": 1.54, "campaigns": 53, "ads": 94, "weeks": 24}, "objective": [{"name": "WhatsApp", "spend": 8462.45, "results": 7230, "cpr": 1.17, "impressions": 5140282, "clicks": 38959, "campaigns": 33, "ctr": 0.76}, {"name": "Lead", "spend": 2397.26, "results": 1660, "cpr": 1.44, "impressions": 1931297, "clicks": 9847, "campaigns": 20, "ctr": 0.51}], "course": [{"name": "PRE (Primary)", "spend": 4380.08, "results": 4023, "cpr": 1.09, "impressions": 2683110, "clicks": 21172, "campaigns": 15, "share": 40.33, "ctr": 0.79}, {"name": "TESOL", "spend": 2407.7, "results": 1605, "cpr": 1.5, "impressions": 1605297, "clicks": 7913, "campaigns": 16, "share": 22.17, "ctr": 0.49}, {"name": "BTEC ECE", "spend": 1538.98, "results": 1197, "cpr": 1.29, "impressions": 1057772, "clicks": 9207, "campaigns": 8, "share": 14.17, "ctr": 0.87}, {"name": "TEFL", "spend": 1008.18, "results": 829, "cpr": 1.22, "impressions": 722782, "clicks": 3567, "campaigns": 5, "share": 9.28, "ctr": 0.49}, {"name": "MEd / Montessori", "spend": 772.49, "results": 519, "cpr": 1.49, "impressions": 535695, "clicks": 3019, "campaigns": 4, "share": 7.11, "ctr": 0.56}, {"name": "DTESL", "spend": 472.82, "results": 446, "cpr": 1.06, "impressions": 195092, "clicks": 2594, "campaigns": 1, "share": 4.35, "ctr": 1.33}, {"name": "FOA", "spend": 268.55, "results": 269, "cpr": 1.0, "impressions": 266233, "clicks": 1311, "campaigns": 3, "share": 2.47, "ctr": 0.49}, {"name": "BEd", "spend": 10.91, "results": 2, "cpr": 5.46, "impressions": 5598, "clicks": 23, "campaigns": 1, "share": 0.1, "ctr": 0.41}], "campaigns": [{"name": "PRE-WA-YEAR END 2025 Campaign", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 968.78, "results": 992, "cpr": 0.98, "impressions": 532469, "clicks": 8182, "ctr": 1.54}, {"name": "TH-TESOL ET KW- WA 8368 -APRL-JUNE 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 682.91, "results": 428, "cpr": 1.6, "impressions": 472319, "clicks": 2356, "ctr": 0.5}, {"name": "TEFL-WA-TEFL KW-YEAR END 2025 Campaign", "obj": "WhatsApp", "course": "TEFL", "spend": 640.22, "results": 571, "cpr": 1.12, "impressions": 475957, "clicks": 2377, "ctr": 0.5}, {"name": "-PRE-WA 8368 - JAN-MARCH 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 601.64, "results": 506, "cpr": 1.19, "impressions": 184175, "clicks": 1466, "ctr": 0.8}, {"name": "LEAD-MED-FEB INTAKE 2026", "obj": "Lead", "course": "MEd / Montessori", "spend": 532.44, "results": 352, "cpr": 1.51, "impressions": 361858, "clicks": 2159, "ctr": 0.6}, {"name": "BTEC-WA-ECE(KW)-YEAR END 2026 Campaign", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 520.78, "results": 404, "cpr": 1.29, "impressions": 315738, "clicks": 5562, "ctr": 1.76}, {"name": "SA-TESOL WA 9090 - APR-JUNE 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 482.79, "results": 343, "cpr": 1.41, "impressions": 348661, "clicks": 1800, "ctr": 0.52}, {"name": "DTESL-WA-YEAR END 2025 Campaign", "obj": "WhatsApp", "course": "DTESL", "spend": 472.82, "results": 446, "cpr": 1.06, "impressions": 195092, "clicks": 2594, "ctr": 1.33}, {"name": "PRE-WA 9090 -JAN-MARCH 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 367.52, "results": 237, "cpr": 1.55, "impressions": 87935, "clicks": 731, "ctr": 0.83}, {"name": "PRE -LEADS-YEAR END 2025", "obj": "Lead", "course": "PRE (Primary)", "spend": 346.01, "results": 224, "cpr": 1.54, "impressions": 308861, "clicks": 1695, "ctr": 0.55}, {"name": "BTEC ECE -WA-310- JAN-MARCH 26", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 314.24, "results": 266, "cpr": 1.18, "impressions": 142714, "clicks": 902, "ctr": 0.63}, {"name": "PRE -WA  NIM 310 -MAY 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 288.76, "results": 281, "cpr": 1.03, "impressions": 255266, "clicks": 1228, "ctr": 0.48}, {"name": "SA-PRE-WA 9090-APR-JUNE 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 288.53, "results": 307, "cpr": 0.94, "impressions": 183696, "clicks": 1205, "ctr": 0.66}, {"name": "NEW -PRE LEADS NEG- SA-9090 - MAY 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 244.62, "results": 382, "cpr": 0.64, "impressions": 255383, "clicks": 1456, "ctr": 0.57}, {"name": "TH-BTEC -WA 8368 - APR-JUNE 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 239.79, "results": 205, "cpr": 1.17, "impressions": 184274, "clicks": 842, "ctr": 0.46}, {"name": "NEW PRE-LEADS-JAN-APRIL 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 226.01, "results": 168, "cpr": 1.35, "impressions": 195334, "clicks": 947, "ctr": 0.48}, {"name": "-TESOL-WA 8368 - FEB-APRIL 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 216.11, "results": 201, "cpr": 1.08, "impressions": 140444, "clicks": 685, "ctr": 0.49}, {"name": "SA-9090-WA TEFL MAY JUNE 2026", "obj": "WhatsApp", "course": "TEFL", "spend": 211.02, "results": 129, "cpr": 1.64, "impressions": 144908, "clicks": 674, "ctr": 0.47}, {"name": "BTEC-WA-TH MAY JUNE 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 197.13, "results": 139, "cpr": 1.42, "impressions": 210443, "clicks": 878, "ctr": 0.42}, {"name": "SA - PRE-WA 9090 - MARCH-JUNE 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 193.68, "results": 162, "cpr": 1.2, "impressions": 120152, "clicks": 791, "ctr": 0.66}, {"name": "TESOL-WA 9090 - FEB-APRIL 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 187.45, "results": 139, "cpr": 1.35, "impressions": 97926, "clicks": 489, "ctr": 0.5}, {"name": "ME- PRE-LEADS-  MARCH - JUNE 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 184.53, "results": 89, "cpr": 2.07, "impressions": 139132, "clicks": 634, "ctr": 0.46}, {"name": "SA-PRE-WA 9090-MAY 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 178.4, "results": 166, "cpr": 1.07, "impressions": 145027, "clicks": 734, "ctr": 0.51}, {"name": "PRE - WA 1225585 - JAN-MARCH 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 176.6, "results": 268, "cpr": 0.66, "impressions": 59996, "clicks": 595, "ctr": 0.99}, {"name": "TESOL-WA-TESOL KW-YEAR END 2025   Campaign", "obj": "WhatsApp", "course": "TESOL", "spend": 165.35, "results": 138, "cpr": 1.2, "impressions": 95757, "clicks": 534, "ctr": 0.56}, {"name": "ME- TESOL-LEADS-  MARCH - JUNE 2026", "obj": "Lead", "course": "TESOL", "spend": 156.51, "results": 62, "cpr": 2.52, "impressions": 102723, "clicks": 434, "ctr": 0.42}, {"name": "TESOL-WA 310- JAN-MARCH 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 142.03, "results": 112, "cpr": 1.27, "impressions": 91339, "clicks": 402, "ctr": 0.44}, {"name": "SA-TESOL-WA 9090 - MARCH-JUNE 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 135.5, "results": 97, "cpr": 1.4, "impressions": 71653, "clicks": 459, "ctr": 0.64}, {"name": "SA - BTEC-WA 9090 - MARCH-JUNE 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 126.44, "results": 96, "cpr": 1.32, "impressions": 99796, "clicks": 530, "ctr": 0.53}, {"name": "2- TH-BTEC -WA 8368 - MAY 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 122.94, "results": 83, "cpr": 1.48, "impressions": 95511, "clicks": 454, "ctr": 0.48}, {"name": "NIM-310-TESOL-LEAD WA-JUNE 2026", "obj": "Lead", "course": "TESOL", "spend": 121.44, "results": 43, "cpr": 2.82, "impressions": 91189, "clicks": 392, "ctr": 0.43}, {"name": "TH-PRE-LEADS 8368 -JUNE 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 118.9, "results": 108, "cpr": 1.1, "impressions": 80675, "clicks": 435, "ctr": 0.54}, {"name": "MED-LEADS-JUNE/JULY INTAKE 2026", "obj": "Lead", "course": "MEd / Montessori", "spend": 116.99, "results": 43, "cpr": 2.72, "impressions": 86040, "clicks": 434, "ctr": 0.5}, {"name": "TH-PRE-LEADS 8368 -  MARCH -JUNE 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 114.29, "results": 48, "cpr": 2.38, "impressions": 86339, "clicks": 397, "ctr": 0.46}, {"name": "SA-9090-WA-MED -MAY 2026", "obj": "WhatsApp", "course": "MEd / Montessori", "spend": 113.99, "results": 118, "cpr": 0.97, "impressions": 86866, "clicks": 413, "ctr": 0.48}, {"name": "FOA-WA-FOA(KW)-YEAR END  2025", "obj": "WhatsApp", "course": "FOA", "spend": 102.38, "results": 142, "cpr": 0.72, "impressions": 98594, "clicks": 607, "ctr": 0.62}, {"name": "FOA-LEADS-JAN-MARCH 2026", "obj": "Lead", "course": "FOA", "spend": 88.77, "results": 96, "cpr": 0.92, "impressions": 119327, "clicks": 447, "ctr": 0.37}, {"name": "TH- TESOL-LEADS-  APRIL - JUNE 2026", "obj": "Lead", "course": "TESOL", "spend": 83.52, "results": 25, "cpr": 3.34, "impressions": 62753, "clicks": 249, "ctr": 0.4}, {"name": "-PRE-WA 9090 -new batch 2026  Common Campaign", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 81.81, "results": 85, "cpr": 0.96, "impressions": 48670, "clicks": 676, "ctr": 1.39}, {"name": "SA-9090 WA-FOA-MAY 2026", "obj": "WhatsApp", "course": "FOA", "spend": 77.4, "results": 31, "cpr": 2.5, "impressions": 48312, "clicks": 257, "ctr": 0.53}, {"name": "SA-TEFL-WA 9090 APR-JUNE 2026", "obj": "WhatsApp", "course": "TEFL", "spend": 69.93, "results": 63, "cpr": 1.11, "impressions": 43999, "clicks": 233, "ctr": 0.53}, {"name": "TEFL-WA 8368 - MARCH-APRIL 2026", "obj": "WhatsApp", "course": "TEFL", "spend": 69.58, "results": 60, "cpr": 1.16, "impressions": 49607, "clicks": 246, "ctr": 0.5}, {"name": "TH-BTEC-LEADS-APRIL-JUNE 2026", "obj": "Lead", "course": "BTEC ECE", "spend": 17.66, "results": 4, "cpr": 4.42, "impressions": 9296, "clicks": 39, "ctr": 0.42}, {"name": "TEFL-LEADS YEAR END 2025", "obj": "Lead", "course": "TEFL", "spend": 17.43, "results": 6, "cpr": 2.9, "impressions": 8311, "clicks": 37, "ctr": 0.45}, {"name": "TESOL- LEADS-DEC INTAKE-FEB 2025", "obj": "Lead", "course": "TESOL", "spend": 17.23, "results": 8, "cpr": 2.15, "impressions": 18478, "clicks": 69, "ctr": 0.37}, {"name": "SA-TESOL WA 9090 -MAY-JUNE 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 16.86, "results": 9, "cpr": 1.87, "impressions": 12055, "clicks": 44, "ctr": 0.36}, {"name": "BED-LEADS-JUNE/JULY BATCH 2026", "obj": "Lead", "course": "BEd", "spend": 10.91, "results": 2, "cpr": 5.46, "impressions": 5598, "clicks": 23, "ctr": 0.41}, {"name": "PRE-WA M.ASS  -JAN-MARCH 2026", "obj": "WhatsApp", "course": "MEd / Montessori", "spend": 9.07, "results": 6, "cpr": 1.51, "impressions": 931, "clicks": 13, "ctr": 1.4}], "ads": [{"name": "1-PRE-WA-YEAR END 2025", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 792.45, "results": 895, "cpr": 0.89, "impressions": 466650, "clicks": 6728, "ctr": 1.44, "freq": 1.44, "weeks": 24}, {"name": "AD 1 TH-TESOL -ET KW-WA 8368 -APRL-JUNE 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 682.91, "results": 428, "cpr": 1.6, "impressions": 472319, "clicks": 2356, "ctr": 0.5, "freq": 1.62, "weeks": 19}, {"name": "old 4 month  TEFL-WA-TEFL KW-FEB-APRIL 2025", "obj": "WhatsApp", "course": "TEFL", "spend": 583.5, "results": 537, "cpr": 1.09, "impressions": 439974, "clicks": 2219, "ctr": 0.5, "freq": 1.67, "weeks": 24}, {"name": "2- BTEC-WA-ECE(KW)-YEAR END 2026 \u2013 Copy", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 408.09, "results": 324, "cpr": 1.26, "impressions": 257618, "clicks": 4611, "ctr": 1.79, "freq": 1.47, "weeks": 24}, {"name": "3-LEAD-MED-FEB INTAKE 2026", "obj": "Lead", "course": "MEd / Montessori", "spend": 402.37, "results": 275, "cpr": 1.46, "impressions": 275138, "clicks": 1671, "ctr": 0.61, "freq": 1.85, "weeks": 24}, {"name": "1- DTESL-WA-YEAR END 2025", "obj": "WhatsApp", "course": "DTESL", "spend": 322.31, "results": 339, "cpr": 0.95, "impressions": 137362, "clicks": 1711, "ctr": 1.25, "freq": 1.39, "weeks": 24}, {"name": "AD 3- PRE-WA 8368 - PRE KW SL- JAN-MARCH 2026 \u2013 Copy 2", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 320.71, "results": 288, "cpr": 1.11, "impressions": 85624, "clicks": 750, "ctr": 0.88, "freq": 1.49, "weeks": 24}, {"name": "AD 2- SA-TESOL ET KW - WA 9090 - APR-JUNE 2026 \u2013 Copy", "obj": "WhatsApp", "course": "TESOL", "spend": 299.45, "results": 221, "cpr": 1.35, "impressions": 232645, "clicks": 1125, "ctr": 0.48, "freq": 1.63, "weeks": 19}, {"name": "AD 1 -PRE -WA PRE KW-NIM 310 -MAY 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 288.76, "results": 281, "cpr": 1.03, "impressions": 255266, "clicks": 1228, "ctr": 0.48, "freq": 1.46, "weeks": 19}, {"name": "NEW - Pre KW -LEADS NEG- SA-9090 - MAY 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 244.62, "results": 382, "cpr": 0.64, "impressions": 255383, "clicks": 1456, "ctr": 0.57, "freq": 1.55, "weeks": 19}, {"name": "AD 1 -TH-BTEC ECE KW -WA 8368 - APR-JUNE 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 238.73, "results": 205, "cpr": 1.16, "impressions": 183964, "clicks": 839, "ctr": 0.46, "freq": 1.66, "weeks": 19}, {"name": "SA-9090-WA TEFL MAY JUNE 2026", "obj": "WhatsApp", "course": "TEFL", "spend": 211.02, "results": 129, "cpr": 1.64, "impressions": 144908, "clicks": 674, "ctr": 0.47, "freq": 1.81, "weeks": 19}, {"name": "AD 1- SA-TESOL ET KW - WA 9090 - APR-JUNE 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 200.2, "results": 131, "cpr": 1.53, "impressions": 128071, "clicks": 719, "ctr": 0.56, "freq": 1.6, "weeks": 19}, {"name": "BTEC-ECE KW-WA-TH -MAY -JUNE 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 197.13, "results": 139, "cpr": 1.42, "impressions": 210443, "clicks": 878, "ctr": 0.42, "freq": 1.47, "weeks": 19}, {"name": "AD 2 -BTEC ECE -WA 310 - JAN-MARCH 26 \u2013 Copy", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 196.37, "results": 167, "cpr": 1.18, "impressions": 100591, "clicks": 578, "ctr": 0.57, "freq": 1.43, "weeks": 24}, {"name": "AD 1- SA-PRE KW(NEG)-WA 9090-MAY 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 178.4, "results": 166, "cpr": 1.07, "impressions": 145027, "clicks": 734, "ctr": 0.51, "freq": 1.5, "weeks": 19}, {"name": "2-PRE -LEADS-PRE KW-YEAR END 2025 \u2013 Copy 2", "obj": "Lead", "course": "PRE (Primary)", "spend": 177.61, "results": 111, "cpr": 1.6, "impressions": 169925, "clicks": 907, "ctr": 0.53, "freq": 1.47, "weeks": 24}, {"name": "AD 3 - PRE - WA 1225585 - JAN-MARCH 2026 \u2013 Copy 2", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 167.98, "results": 258, "cpr": 0.65, "impressions": 56463, "clicks": 564, "ctr": 1.0, "freq": 1.52, "weeks": 24}, {"name": "AD 2 - PRE-WA 9090-ECE KW -JAN-MARCH 2026 \u2013 Copy", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 166.95, "results": 76, "cpr": 2.2, "impressions": 32597, "clicks": 255, "ctr": 0.78, "freq": 1.28, "weeks": 24}, {"name": "1-PRE -LEADS-PRE KW-YEAR END 2025", "obj": "Lead", "course": "PRE (Primary)", "spend": 166.43, "results": 112, "cpr": 1.49, "impressions": 138055, "clicks": 782, "ctr": 0.57, "freq": 1.42, "weeks": 24}, {"name": "TESOL-WA-TESOL KW-YEAR END 2025", "obj": "WhatsApp", "course": "TESOL", "spend": 165.35, "results": 138, "cpr": 1.2, "impressions": 95757, "clicks": 534, "ctr": 0.56, "freq": 1.6, "weeks": 24}, {"name": "AD 1 - PRE-WA 9090-ECE KW -JAN-MARCH 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 164.43, "results": 135, "cpr": 1.22, "impressions": 44834, "clicks": 381, "ctr": 0.85, "freq": 1.39, "weeks": 24}, {"name": "AD-2 SA-PRE (KW)-WA 9090-APR-JUNE 2026 \u2013 Copy", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 163.86, "results": 173, "cpr": 0.95, "impressions": 98497, "clicks": 669, "ctr": 0.68, "freq": 1.59, "weeks": 19}, {"name": "AD 1 - TESOL-LEADS-  MARCH - JUNE 2026", "obj": "Lead", "course": "TESOL", "spend": 156.51, "results": 62, "cpr": 2.52, "impressions": 102723, "clicks": 434, "ctr": 0.42, "freq": 2.1, "weeks": 19}, {"name": "AD 4 - PRE-LEADS-JAN-APRIL 2026 \u2013 Copy 3", "obj": "Lead", "course": "PRE (Primary)", "spend": 153.26, "results": 127, "cpr": 1.21, "impressions": 145538, "clicks": 696, "ctr": 0.48, "freq": 1.55, "weeks": 24}, {"name": "2- DTESL-WA-YEAR END 2025 \u2013 Copy", "obj": "WhatsApp", "course": "DTESL", "spend": 150.51, "results": 107, "cpr": 1.41, "impressions": 57730, "clicks": 883, "ctr": 1.53, "freq": 1.32, "weeks": 24}, {"name": "AD 1 -PRE-WA 9090 - PRE KW- MARCH-JUNE 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 146.56, "results": 131, "cpr": 1.12, "impressions": 89225, "clicks": 602, "ctr": 0.67, "freq": 1.48, "weeks": 19}, {"name": "TESOL-WA 310- ETKW-JAN-MARCH 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 142.03, "results": 112, "cpr": 1.27, "impressions": 91339, "clicks": 402, "ctr": 0.44, "freq": 1.52, "weeks": 24}, {"name": "AD 3 -TESOL- ET KW-WA 8368 - FEB-APRIL 2026 \u2013 Copy 2", "obj": "WhatsApp", "course": "TESOL", "spend": 140.54, "results": 116, "cpr": 1.21, "impressions": 81600, "clicks": 406, "ctr": 0.5, "freq": 1.56, "weeks": 19}, {"name": "AD-1 SA-PRE (KW)-WA 9090-APR-JUNE 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 124.67, "results": 134, "cpr": 0.93, "impressions": 85199, "clicks": 536, "ctr": 0.63, "freq": 1.56, "weeks": 19}, {"name": "AD 1 -2- TH-BTEC -WA 8368 - MAY 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 122.94, "results": 83, "cpr": 1.48, "impressions": 95511, "clicks": 454, "ctr": 0.48, "freq": 1.53, "weeks": 19}, {"name": "NIM-310-TESOL-LEAD WA-JUNE 2026", "obj": "Lead", "course": "TESOL", "spend": 121.44, "results": 43, "cpr": 2.82, "impressions": 91189, "clicks": 392, "ctr": 0.43, "freq": 1.79, "weeks": 19}, {"name": "TH-PRE KW-LEADS 8368 -JUNE 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 118.9, "results": 108, "cpr": 1.1, "impressions": 80675, "clicks": 435, "ctr": 0.54, "freq": 1.62, "weeks": 19}, {"name": "AD 1- MED-LEADS-MED KW-JUNE/JULY INTAKE 2026", "obj": "Lead", "course": "MEd / Montessori", "spend": 116.99, "results": 43, "cpr": 2.72, "impressions": 86040, "clicks": 434, "ctr": 0.5, "freq": 1.79, "weeks": 19}, {"name": "AD 2 -BTEC-WA 9090 - BTEC  KW- MARCH-JUNE 2026 \u2013 Copy", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 114.4, "results": 86, "cpr": 1.33, "impressions": 91512, "clicks": 472, "ctr": 0.52, "freq": 1.53, "weeks": 19}, {"name": "SA-9090-WA- MED KW-MED -MAY 2026", "obj": "WhatsApp", "course": "MEd / Montessori", "spend": 113.99, "results": 118, "cpr": 0.97, "impressions": 86866, "clicks": 413, "ctr": 0.48, "freq": 1.81, "weeks": 19}, {"name": "1- BTEC-WA-ECE(KW)-YEAR END 2026", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 112.69, "results": 80, "cpr": 1.41, "impressions": 58120, "clicks": 951, "ctr": 1.64, "freq": 1.42, "weeks": 24}, {"name": "AD 2 - PRE-WA 8368 - PRE KW SL- JAN-MARCH 2026 \u2013 Copy", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 100.47, "results": 88, "cpr": 1.14, "impressions": 42480, "clicks": 282, "ctr": 0.66, "freq": 1.46, "weeks": 24}, {"name": "AD 2 - TH-PRE-LEADS 8368 -PRE KW -  MARCH -JUNE 2026 \u2013 Copy", "obj": "Lead", "course": "PRE (Primary)", "spend": 100.37, "results": 44, "cpr": 2.28, "impressions": 78074, "clicks": 358, "ctr": 0.46, "freq": 1.61, "weeks": 19}, {"name": "AD 1 - PRE-LEADS-  MARCH - JUNE 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 99.29, "results": 50, "cpr": 1.99, "impressions": 78691, "clicks": 412, "ctr": 0.52, "freq": 1.67, "weeks": 19}, {"name": "2-PRE-WA-YEAR END 2025", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 96.7, "results": 62, "cpr": 1.56, "impressions": 41288, "clicks": 1080, "ctr": 2.62, "freq": 1.43, "weeks": 24}, {"name": "AD 4- PRE-WA 8368 - PRE KW SL- JAN-MARCH 2026 \u2013 Copy 3", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 94.93, "results": 77, "cpr": 1.23, "impressions": 12905, "clicks": 205, "ctr": 1.59, "freq": 1.6, "weeks": 24}, {"name": "AD 3-TESOL- ET KW-WA 9090 - FEB-APRIL 2026 \u2013 Copy", "obj": "WhatsApp", "course": "TESOL", "spend": 92.39, "results": 64, "cpr": 1.44, "impressions": 40900, "clicks": 239, "ctr": 0.58, "freq": 1.42, "weeks": 19}, {"name": "AD 1 - PRE-WA 8368 - PRE KW SL- JAN-MARCH 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 85.53, "results": 53, "cpr": 1.61, "impressions": 43166, "clicks": 229, "ctr": 0.53, "freq": 1.37, "weeks": 24}, {"name": "3-PRE-WA-YEAR END 2025", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 79.63, "results": 35, "cpr": 2.28, "impressions": 24531, "clicks": 374, "ctr": 1.52, "freq": 1.4, "weeks": 24}, {"name": "AD 2 -FOA-LEADS-JAN-MARCH 2026 \u2013 Copy", "obj": "Lead", "course": "FOA", "spend": 78.37, "results": 95, "cpr": 0.82, "impressions": 110843, "clicks": 424, "ctr": 0.38, "freq": 1.57, "weeks": 24}, {"name": "SA-9090 WA-FOA-MAY 2026", "obj": "WhatsApp", "course": "FOA", "spend": 77.4, "results": 31, "cpr": 2.5, "impressions": 48312, "clicks": 257, "ctr": 0.53, "freq": 1.49, "weeks": 19}, {"name": "AD 2- SA-TESOL-WA 9090 - MARCH-JUNE 2026 \u2013 Copy 2", "obj": "WhatsApp", "course": "TESOL", "spend": 76.37, "results": 55, "cpr": 1.39, "impressions": 39056, "clicks": 260, "ctr": 0.67, "freq": 1.5, "weeks": 19}, {"name": "AD 2 -TESOL- ET KW-WA 8368 - FEB-APRIL 2026 \u2013 Copy", "obj": "WhatsApp", "course": "TESOL", "spend": 75.57, "results": 85, "cpr": 0.89, "impressions": 58844, "clicks": 279, "ctr": 0.47, "freq": 1.65, "weeks": 19}, {"name": "AD 3 -BTEC ECE -WA 310 - JAN-MARCH 26 \u2013 Copy 2", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 72.76, "results": 53, "cpr": 1.37, "impressions": 26959, "clicks": 193, "ctr": 0.72, "freq": 1.6, "weeks": 24}, {"name": "AD 1 -TESOL- ET KW-WA 9090 - FEB-APRIL 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 72.7, "results": 56, "cpr": 1.3, "impressions": 43678, "clicks": 192, "ctr": 0.44, "freq": 1.5, "weeks": 19}, {"name": "AD 1 - SA-TEFL-WA 9090 APR-JUNE 2026", "obj": "WhatsApp", "course": "TEFL", "spend": 69.93, "results": 63, "cpr": 1.11, "impressions": 43999, "clicks": 233, "ctr": 0.53, "freq": 1.62, "weeks": 19}, {"name": "AD 1 -TEFL- ET KW-WA 8368 - MARCH-APRIL 2026 \u2013 Copy", "obj": "WhatsApp", "course": "TEFL", "spend": 69.58, "results": 60, "cpr": 1.16, "impressions": 49607, "clicks": 246, "ctr": 0.5, "freq": 1.49, "weeks": 19}, {"name": "1-LEAD-MED-FEB INTAKE 2026", "obj": "Lead", "course": "MEd / Montessori", "spend": 67.93, "results": 48, "cpr": 1.42, "impressions": 44700, "clicks": 259, "ctr": 0.58, "freq": 1.47, "weeks": 24}, {"name": "2- FOA-WA-FOA(KW)-MARCH-MAY  2025 \u2013 Copy", "obj": "WhatsApp", "course": "FOA", "spend": 65.54, "results": 122, "cpr": 0.54, "impressions": 80074, "clicks": 481, "ctr": 0.6, "freq": 1.35, "weeks": 24}, {"name": "4-LEAD-MED-FEB INTAKE 2026", "obj": "Lead", "course": "MEd / Montessori", "spend": 56.93, "results": 28, "cpr": 2.03, "impressions": 39892, "clicks": 216, "ctr": 0.54, "freq": 1.69, "weeks": 24}, {"name": "1- TEFL-WA-TEFL KW-FEB-APRIL 2025 \u2013 Copy", "obj": "WhatsApp", "course": "TEFL", "spend": 56.72, "results": 34, "cpr": 1.67, "impressions": 35983, "clicks": 158, "ctr": 0.44, "freq": 1.85, "weeks": 19}, {"name": "AD 2- PRE-LEADS-  MARCH - JUNE 2026 \u2013 Copy", "obj": "Lead", "course": "PRE (Primary)", "spend": 56.36, "results": 21, "cpr": 2.68, "impressions": 41522, "clicks": 142, "ctr": 0.34, "freq": 1.67, "weeks": 19}, {"name": "AD 3 - PRE-LEADS-JAN-APRIL 2026 \u2013 Copy 2", "obj": "Lead", "course": "PRE (Primary)", "spend": 55.98, "results": 30, "cpr": 1.87, "impressions": 41088, "clicks": 197, "ctr": 0.48, "freq": 1.45, "weeks": 24}, {"name": "AD 2 -PRE-WA 9090 - PRE KW- MARCH-JUNE 2026 \u2013 Copy", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 47.12, "results": 31, "cpr": 1.52, "impressions": 30927, "clicks": 189, "ctr": 0.61, "freq": 1.49, "weeks": 19}, {"name": "TH-AD 1 - TESOL-LEADS-  APRIL - JUNE 2026 \u2013 Copy", "obj": "Lead", "course": "TESOL", "spend": 45.81, "results": 12, "cpr": 3.82, "impressions": 38974, "clicks": 129, "ctr": 0.33, "freq": 1.78, "weeks": 19}, {"name": "AD 1 -BTEC ECE -WA 310 - JAN-MARCH 26", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 45.11, "results": 46, "cpr": 0.98, "impressions": 15164, "clicks": 131, "ctr": 0.86, "freq": 1.59, "weeks": 24}, {"name": "1- FOA-WA-FOA(KW)-MARCH-MAY  2025", "obj": "WhatsApp", "course": "FOA", "spend": 36.84, "results": 20, "cpr": 1.84, "impressions": 18520, "clicks": 126, "ctr": 0.68, "freq": 1.47, "weeks": 24}, {"name": "AD 1 - SA-TESOL-WA 9090 - MARCH-JUNE 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 36.31, "results": 23, "cpr": 1.58, "impressions": 20504, "clicks": 120, "ctr": 0.59, "freq": 1.53, "weeks": 19}, {"name": "AD 1-PRE-WA 9090 -new batch 2026  Common \u2013 Copy", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 36.24, "results": 39, "cpr": 0.93, "impressions": 21086, "clicks": 253, "ctr": 1.2, "freq": 1.28, "weeks": 19}, {"name": "AD 3 - PRE-WA 9090-ECE KW -JAN-MARCH 2026 \u2013 Copy 2", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 36.14, "results": 26, "cpr": 1.39, "impressions": 10504, "clicks": 95, "ctr": 0.9, "freq": 1.09, "weeks": 24}, {"name": "AD 2-PRE-WA 9090 -new batch 2026  Common \u2013 Copy", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 35.26, "results": 39, "cpr": 0.9, "impressions": 24099, "clicks": 393, "ctr": 1.63, "freq": 1.45, "weeks": 19}, {"name": "AD 3 - PRE-LEADS-  MARCH - JUNE 2026 \u2013 Copy", "obj": "Lead", "course": "PRE (Primary)", "spend": 28.88, "results": 18, "cpr": 1.6, "impressions": 18919, "clicks": 80, "ctr": 0.42, "freq": 1.33, "weeks": 19}, {"name": "TH-AD 4 - TESOL-LEADS-  APRIL - JUNE 2026 \u2013 Copy 2", "obj": "Lead", "course": "TESOL", "spend": 23.02, "results": 12, "cpr": 1.92, "impressions": 14852, "clicks": 74, "ctr": 0.5, "freq": 1.54, "weeks": 19}, {"name": "AD 3- SA-TESOL-WA 9090 - MARCH-JUNE 2026 \u2013 Copy", "obj": "WhatsApp", "course": "TESOL", "spend": 22.82, "results": 19, "cpr": 1.2, "impressions": 12093, "clicks": 79, "ctr": 0.65, "freq": 1.48, "weeks": 19}, {"name": "AD 2 -TESOL- ET KW-WA 9090 - FEB-APRIL 2026", "obj": "WhatsApp", "course": "TESOL", "spend": 22.36, "results": 19, "cpr": 1.18, "impressions": 13348, "clicks": 58, "ctr": 0.43, "freq": 1.73, "weeks": 19}, {"name": "TEFL-LEADS-TEFL (KW) YEAR END 2025", "obj": "Lead", "course": "TEFL", "spend": 17.43, "results": 6, "cpr": 2.9, "impressions": 8311, "clicks": 37, "ctr": 0.45, "freq": 1.51, "weeks": 24}, {"name": "AD 1 - TH-PRE-LEADS 8368 -PRE KW -  MARCH -JUNE 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 13.92, "results": 4, "cpr": 3.48, "impressions": 8265, "clicks": 39, "ctr": 0.47, "freq": 1.39, "weeks": 19}, {"name": "AD 1 - PRE-LEADS-JAN-APRIL 2026 \u2013 Copy", "obj": "Lead", "course": "PRE (Primary)", "spend": 13.41, "results": 9, "cpr": 1.49, "impressions": 6520, "clicks": 41, "ctr": 0.63, "freq": 1.38, "weeks": 24}, {"name": "3- TESOL- LEADS-DEC INTAKE-FEB 2025", "obj": "Lead", "course": "TESOL", "spend": 13.0, "results": 5, "cpr": 2.6, "impressions": 15332, "clicks": 55, "ctr": 0.36, "freq": 1.51, "weeks": 24}, {"name": "AD 1 -BTEC-WA 9090 - BTEC  KW- MARCH-JUNE 2026 \u2013 Copy 2", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 12.04, "results": 10, "cpr": 1.2, "impressions": 8284, "clicks": 58, "ctr": 0.7, "freq": 1.48, "weeks": 19}, {"name": "AD 1-TH-BTEC KW-LEADS-APRIL-JUNE 2026 \u2013 Copy", "obj": "Lead", "course": "BTEC ECE", "spend": 11.58, "results": 2, "cpr": 5.79, "impressions": 6328, "clicks": 26, "ctr": 0.41, "freq": 1.3, "weeks": 19}, {"name": "TH-AD 3 - TESOL-LEADS-  APRIL - JUNE 2026 \u2013 Copy 3", "obj": "Lead", "course": "TESOL", "spend": 11.26, "results": 0, "cpr": null, "impressions": 7505, "clicks": 38, "ctr": 0.51, "freq": 1.6, "weeks": 19}, {"name": "AD 1 -BED-LEADS-BED(KW)JUNE/JULY BATCH 2026", "obj": "Lead", "course": "BEd", "spend": 10.91, "results": 2, "cpr": 5.46, "impressions": 5598, "clicks": 23, "ctr": 0.41, "freq": 1.91, "weeks": 19}, {"name": "AD 1 -FOA-LEADS-JAN-MARCH 2026", "obj": "Lead", "course": "FOA", "spend": 10.4, "results": 1, "cpr": 10.4, "impressions": 8484, "clicks": 23, "ctr": 0.27, "freq": 1.53, "weeks": 24}, {"name": "AD 1-PRE-WA 9090 -new batch 2026  Common", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 10.31, "results": 7, "cpr": 1.47, "impressions": 3485, "clicks": 30, "ctr": 0.86, "freq": 1.42, "weeks": 19}, {"name": "AD 1 - PRE - WA 1225585 - JAN-MARCH 2026", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 6.9, "results": 9, "cpr": 0.77, "impressions": 2203, "clicks": 24, "ctr": 1.09, "freq": 1.24, "weeks": 24}, {"name": "AD 2-TH-BTEC KW-LEADS-APRIL-JUNE 2026", "obj": "Lead", "course": "BTEC ECE", "spend": 6.08, "results": 2, "cpr": 3.04, "impressions": 2968, "clicks": 13, "ctr": 0.44, "freq": 1.24, "weeks": 19}, {"name": "2-LEAD-MED-FEB INTAKE 2026", "obj": "Lead", "course": "MEd / Montessori", "spend": 5.21, "results": 1, "cpr": 5.21, "impressions": 2128, "clicks": 13, "ctr": 0.61, "freq": 1.22, "weeks": 24}, {"name": "AD 2 - PRE-WA M.ASS-PRE KW -JAN-MARCH 2026 \u2013 Copy", "obj": "WhatsApp", "course": "MEd / Montessori", "spend": 4.3, "results": 2, "cpr": 2.15, "impressions": 403, "clicks": 5, "ctr": 1.24, "freq": 1.2, "weeks": 24}, {"name": "TH-AD 2 - TESOL-LEADS-  APRIL - JUNE 2026", "obj": "Lead", "course": "TESOL", "spend": 3.43, "results": 1, "cpr": 3.43, "impressions": 1422, "clicks": 8, "ctr": 0.56, "freq": 1.15, "weeks": 19}, {"name": "AD 2 - PRE-LEADS-JAN-APRIL 2026", "obj": "Lead", "course": "PRE (Primary)", "spend": 3.36, "results": 2, "cpr": 1.68, "impressions": 2188, "clicks": 13, "ctr": 0.59, "freq": 1.18, "weeks": 24}, {"name": "AD 3 - PRE-WA M.ASS-PRE KW -JAN-MARCH 2026 \u2013 Copy 2", "obj": "WhatsApp", "course": "MEd / Montessori", "spend": 3.27, "results": 2, "cpr": 1.64, "impressions": 404, "clicks": 5, "ctr": 1.24, "freq": 1.24, "weeks": 24}, {"name": "2- TESOL- LEADS-DEC INTAKE-FEB 2025  y", "obj": "Lead", "course": "TESOL", "spend": 2.2, "results": 2, "cpr": 1.1, "impressions": 1555, "clicks": 8, "ctr": 0.51, "freq": 1.34, "weeks": 24}, {"name": "1- TESOL- LEADS-DEC INTAKE-FEB 2025", "obj": "Lead", "course": "TESOL", "spend": 2.03, "results": 1, "cpr": 2.03, "impressions": 1591, "clicks": 6, "ctr": 0.38, "freq": 1.29, "weeks": 24}, {"name": "2-PRE -LEADS-PRE KW-YEAR END 2025 \u2013 Copy", "obj": "Lead", "course": "PRE (Primary)", "spend": 1.97, "results": 1, "cpr": 1.97, "impressions": 881, "clicks": 6, "ctr": 0.68, "freq": 1.19, "weeks": 24}, {"name": "AD 2 - PRE - WA 1225585 - JAN-MARCH 2026 \u2013 Copy", "obj": "WhatsApp", "course": "PRE (Primary)", "spend": 1.72, "results": 1, "cpr": 1.72, "impressions": 1330, "clicks": 7, "ctr": 0.53, "freq": 1.14, "weeks": 24}, {"name": "AD 1 - PRE-WA M.ASS-PRE KW -JAN-MARCH 2026", "obj": "WhatsApp", "course": "MEd / Montessori", "spend": 1.5, "results": 2, "cpr": 0.75, "impressions": 124, "clicks": 3, "ctr": 2.42, "freq": 1.12, "weeks": 24}, {"name": "AD 2 -TH-BTEC ECE KW -WA 8368 - APR-JUNE 2026 \u2013 Copy", "obj": "WhatsApp", "course": "BTEC ECE", "spend": 1.06, "results": 0, "cpr": null, "impressions": 310, "clicks": 3, "ctr": 0.97, "freq": 1.26, "weeks": 19}], "weekly": [{"week": "2026-01-01", "spend": 296.44, "results": 358, "cpr": 0.83, "impressions": 282368, "clicks": 2855, "ctr": 1.01, "freq": 1.51, "partial": false, "wa_cpr": 0.76, "ld_cpr": 1.87, "wa_spend": 255.24, "ld_spend": 41.2}, {"week": "2026-01-08", "spend": 401.31, "results": 371, "cpr": 1.08, "impressions": 287753, "clicks": 2219, "ctr": 0.77, "freq": 1.47, "partial": false, "wa_cpr": 1.05, "ld_cpr": 1.18, "wa_spend": 306.91, "ld_spend": 94.4}, {"week": "2026-01-15", "spend": 533.54, "results": 415, "cpr": 1.29, "impressions": 330492, "clicks": 2436, "ctr": 0.74, "freq": 1.56, "partial": false, "wa_cpr": 1.22, "ld_cpr": 1.49, "wa_spend": 380.19, "ld_spend": 153.35}, {"week": "2026-01-22", "spend": 486.83, "results": 438, "cpr": 1.11, "impressions": 245767, "clicks": 1750, "ctr": 0.71, "freq": 1.45, "partial": false, "wa_cpr": 1.0, "ld_cpr": 1.49, "wa_spend": 338.98, "ld_spend": 147.85}, {"week": "2026-01-29", "spend": 205.61, "results": 174, "cpr": 1.18, "impressions": 122881, "clicks": 716, "ctr": 0.58, "freq": 1.28, "partial": true, "wa_cpr": 1.14, "ld_cpr": 1.34, "wa_spend": 157.46, "ld_spend": 48.15}, {"week": "2026-02-01", "spend": 523.72, "results": 538, "cpr": 0.97, "impressions": 272128, "clicks": 1980, "ctr": 0.73, "freq": 1.54, "partial": false, "wa_cpr": 0.88, "ld_cpr": 1.49, "wa_spend": 404.89, "ld_spend": 118.83}, {"week": "2026-02-08", "spend": 526.39, "results": 487, "cpr": 1.08, "impressions": 259633, "clicks": 2422, "ctr": 0.93, "freq": 1.55, "partial": false, "wa_cpr": 1.04, "ld_cpr": 1.26, "wa_spend": 407.77, "ld_spend": 118.62}, {"week": "2026-02-15", "spend": 530.43, "results": 476, "cpr": 1.11, "impressions": 268746, "clicks": 3280, "ctr": 1.22, "freq": 1.63, "partial": false, "wa_cpr": 1.1, "ld_cpr": 1.15, "wa_spend": 411.69, "ld_spend": 118.74}, {"week": "2026-02-22", "spend": 529.0, "results": 427, "cpr": 1.24, "impressions": 255904, "clicks": 3238, "ctr": 1.27, "freq": 1.58, "partial": false, "wa_cpr": 1.19, "ld_cpr": 1.47, "wa_spend": 410.24, "ld_spend": 118.76}, {"week": "2026-03-01", "spend": 496.05, "results": 396, "cpr": 1.25, "impressions": 288206, "clicks": 2633, "ctr": 0.91, "freq": 1.49, "partial": false, "wa_cpr": 1.27, "ld_cpr": 1.16, "wa_spend": 430.97, "ld_spend": 65.08}, {"week": "2026-03-08", "spend": 459.71, "results": 323, "cpr": 1.42, "impressions": 242843, "clicks": 1790, "ctr": 0.74, "freq": 1.48, "partial": false, "wa_cpr": 1.41, "ld_cpr": 1.66, "wa_spend": 424.82, "ld_spend": 34.89}, {"week": "2026-03-15", "spend": 474.16, "results": 368, "cpr": 1.29, "impressions": 265876, "clicks": 2190, "ctr": 0.82, "freq": 1.51, "partial": false, "wa_cpr": 1.26, "ld_cpr": 1.78, "wa_spend": 436.77, "ld_spend": 37.39}, {"week": "2026-03-22", "spend": 591.63, "results": 444, "cpr": 1.33, "impressions": 356705, "clicks": 2548, "ctr": 0.71, "freq": 1.56, "partial": false, "wa_cpr": 1.14, "ld_cpr": 2.24, "wa_spend": 417.14, "ld_spend": 174.49}, {"week": "2026-03-29", "spend": 553.52, "results": 393, "cpr": 1.41, "impressions": 393580, "clicks": 2429, "ctr": 0.62, "freq": 1.57, "partial": false, "wa_cpr": 1.18, "ld_cpr": 2.0, "wa_spend": 334.03, "ld_spend": 219.49}, {"week": "2026-04-05", "spend": 613.51, "results": 362, "cpr": 1.69, "impressions": 411171, "clicks": 2215, "ctr": 0.54, "freq": 1.61, "partial": false, "wa_cpr": 1.25, "ld_cpr": 3.03, "wa_spend": 337.62, "ld_spend": 275.89}, {"week": "2026-04-12", "spend": 54.55, "results": 40, "cpr": 1.36, "impressions": 37304, "clicks": 247, "ctr": 0.66, "freq": 1.36, "partial": false, "wa_cpr": 1.13, "ld_cpr": 2.47, "wa_spend": 37.28, "ld_spend": 17.27}, {"week": "2026-04-19", "spend": 231.19, "results": 220, "cpr": 1.05, "impressions": 141211, "clicks": 777, "ctr": 0.55, "freq": 1.73, "partial": false, "wa_cpr": 1.05, "ld_cpr": null, "wa_spend": 231.19, "ld_spend": 0.0}, {"week": "2026-04-26", "spend": 306.28, "results": 249, "cpr": 1.23, "impressions": 190124, "clicks": 1006, "ctr": 0.53, "freq": 1.63, "partial": false, "wa_cpr": 1.23, "ld_cpr": null, "wa_spend": 306.28, "ld_spend": 0.0}, {"week": "2026-05-03", "spend": 354.3, "results": 294, "cpr": 1.21, "impressions": 300459, "clicks": 1448, "ctr": 0.48, "freq": 1.7, "partial": false, "wa_cpr": 1.2, "ld_cpr": 1.43, "wa_spend": 338.53, "ld_spend": 15.77}, {"week": "2026-05-10", "spend": 409.54, "results": 302, "cpr": 1.36, "impressions": 277303, "clicks": 1431, "ctr": 0.52, "freq": 1.57, "partial": false, "wa_cpr": 1.25, "ld_cpr": 3.82, "wa_spend": 359.83, "ld_spend": 49.71}, {"week": "2026-05-17", "spend": 619.26, "results": 448, "cpr": 1.38, "impressions": 468460, "clicks": 2267, "ctr": 0.48, "freq": 1.62, "partial": false, "wa_cpr": 1.47, "ld_cpr": 1.11, "wa_spend": 496.81, "ld_spend": 122.45}, {"week": "2026-05-24", "spend": 562.75, "results": 373, "cpr": 1.51, "impressions": 403012, "clicks": 1815, "ctr": 0.45, "freq": 1.64, "partial": false, "wa_cpr": 1.59, "ld_cpr": 1.02, "wa_spend": 508.71, "ld_spend": 54.04}, {"week": "2026-05-31", "spend": 624.73, "results": 562, "cpr": 1.11, "impressions": 631035, "clicks": 3235, "ctr": 0.51, "freq": 1.51, "partial": false, "wa_cpr": 1.21, "ld_cpr": 0.93, "wa_spend": 439.34, "ld_spend": 185.39}, {"week": "2026-06-07", "spend": 475.26, "results": 432, "cpr": 1.1, "impressions": 338618, "clicks": 1879, "ctr": 0.55, "freq": 1.55, "partial": false, "wa_cpr": 1.21, "ld_cpr": 0.97, "wa_spend": 289.76, "ld_spend": 185.5}], "platform": [{"name": "Facebook", "spend": 8738.97, "results": 7351, "cpr": 1.19, "impressions": 5889252, "clicks": 34057, "ctr": 0.58, "share": 80.47}, {"name": "Instagram", "spend": 1887.43, "results": 1253, "cpr": 1.51, "impressions": 1073958, "clicks": 5644, "ctr": 0.53, "share": 17.38}, {"name": "Audience Network", "spend": 169.35, "results": 203, "cpr": 0.83, "impressions": 43905, "clicks": 8899, "ctr": 20.27, "share": 1.56}, {"name": "WhatsApp", "spend": 63.89, "results": 82, "cpr": 0.78, "impressions": 64377, "clicks": 205, "ctr": 0.32, "share": 0.59}], "placement": [{"name": "Feed", "spend": 7212.45, "results": 5637, "cpr": 1.28, "impressions": 3922804, "clicks": 22739, "ctr": 0.58, "share": 66.41}, {"name": "Facebook Reels", "spend": 1457.76, "results": 1142, "cpr": 1.28, "impressions": 1467257, "clicks": 5390, "ctr": 0.37, "share": 13.42}, {"name": "Instagram Reels", "spend": 839.06, "results": 568, "cpr": 1.48, "impressions": 559845, "clicks": 3160, "ctr": 0.56, "share": 7.73}, {"name": "Instagram Stories", "spend": 347.34, "results": 212, "cpr": 1.64, "impressions": 196913, "clicks": 1009, "ctr": 0.51, "share": 3.2}, {"name": "Facebook Stories", "spend": 252.54, "results": 190, "cpr": 1.33, "impressions": 208170, "clicks": 2078, "ctr": 1.0, "share": 2.33}, {"name": "Search results", "spend": 246.3, "results": 412, "cpr": 0.6, "impressions": 99263, "clicks": 1420, "ctr": 1.43, "share": 2.27}, {"name": "Native, banner & interstitial", "spend": 169.35, "results": 203, "cpr": 0.83, "impressions": 43905, "clicks": 8899, "ctr": 20.27, "share": 1.56}, {"name": "Ads on Facebook Reels", "spend": 138.22, "results": 278, "cpr": 0.5, "impressions": 169447, "clicks": 1568, "ctr": 0.93, "share": 1.27}, {"name": "In-stream reels", "spend": 73.64, "results": 113, "cpr": 0.65, "impressions": 277957, "clicks": 1691, "ctr": 0.61, "share": 0.68}, {"name": "Status", "spend": 63.89, "results": 82, "cpr": 0.78, "impressions": 64377, "clicks": 205, "ctr": 0.32, "share": 0.59}, {"name": "Facebook Notifications", "spend": 29.0, "results": 18, "cpr": 1.61, "impressions": 33802, "clicks": 519, "ctr": 1.54, "share": 0.27}, {"name": "Facebook profile feed", "spend": 17.14, "results": 24, "cpr": 0.71, "impressions": 16835, "clicks": 71, "ctr": 0.42, "share": 0.16}, {"name": "Marketplace", "spend": 10.05, "results": 7, "cpr": 1.44, "impressions": 8743, "clicks": 49, "ctr": 0.56, "share": 0.09}, {"name": "Explore", "spend": 1.64, "results": 3, "cpr": 0.55, "impressions": 986, "clicks": 5, "ctr": 0.51, "share": 0.02}, {"name": "Instagram lead gen multi submit", "spend": 0.84, "results": 0, "cpr": null, "impressions": 47, "clicks": 0, "ctr": 0.0, "share": 0.01}], "device": [{"name": "In-app", "spend": 10745.86, "results": 8777, "cpr": 1.22, "impressions": 7010950, "clicks": 48514, "ctr": 0.69, "share": 98.95}, {"name": "Mobile web", "spend": 106.08, "results": 109, "cpr": 0.97, "impressions": 56328, "clicks": 268, "ctr": 0.48, "share": 0.98}, {"name": "Desktop", "spend": 7.76, "results": 4, "cpr": 1.94, "impressions": 4300, "clicks": 24, "ctr": 0.56, "share": 0.07}], "region": [{"name": "Western", "spend": 7530.51, "results": 815, "impressions": 4823960, "reach": 2443367, "clicks": 33847, "ctr": 0.7, "share": 69.34}, {"name": "Central", "spend": 1014.66, "results": 125, "impressions": 629099, "reach": 331956, "clicks": 4819, "ctr": 0.77, "share": 9.34}, {"name": "North Western", "spend": 880.41, "results": 86, "impressions": 632030, "reach": 324142, "clicks": 4344, "ctr": 0.69, "share": 8.11}, {"name": "Sabaragamuwa", "spend": 455.5, "results": 53, "impressions": 326485, "reach": 173049, "clicks": 2206, "ctr": 0.68, "share": 4.19}, {"name": "Southern", "spend": 402.34, "results": 49, "impressions": 290294, "reach": 133815, "clicks": 1504, "ctr": 0.52, "share": 3.7}, {"name": "Eastern", "spend": 160.42, "results": 10, "impressions": 102313, "reach": 53662, "clicks": 613, "ctr": 0.6, "share": 1.48}, {"name": "North Central", "spend": 155.81, "results": 7, "impressions": 99250, "reach": 51196, "clicks": 580, "ctr": 0.58, "share": 1.43}, {"name": "Northern", "spend": 134.6, "results": 5, "impressions": 87199, "reach": 47939, "clicks": 444, "ctr": 0.51, "share": 1.24}, {"name": "Uva", "spend": 121.34, "results": 20, "impressions": 79320, "reach": 41970, "clicks": 438, "ctr": 0.55, "share": 1.12}], "region_meta": {"sl_share": 99.96, "intl_spend": 1.01}, "rankings": {"quality": {"Average": 34, "Above average": 26}, "engagement": {"Below average - Bottom 35% of ads": 40, "Average": 20}, "conversion": {"Below average - Bottom 35% of ads": 44, "Average": 16}}, "active": [{"name": "TH-TESOL ET KW- WA 8368 -APRL-JUNE 2026", "spend": 100.38, "results": 63, "cpr": 1.59}, {"name": "TH-PRE-LEADS 8368 -JUNE 2026", "spend": 65.99, "results": 54, "cpr": 1.22}, {"name": "NEW -PRE LEADS NEG- SA-9090 - MAY 2026", "spend": 60.56, "results": 116, "cpr": 0.52}, {"name": "SA-9090-WA TEFL MAY JUNE 2026", "spend": 47.16, "results": 26, "cpr": 1.81}, {"name": "SA-TESOL WA 9090 - APR-JUNE 2026", "spend": 36.4, "results": 29, "cpr": 1.26}], "meta": {"start": "2026-01-01", "end": "2026-06-12", "generated": "2026-06-13"}};
+const T = {"weekly": [{"week": "2026-01-01", "spend": 296.44, "results": 358, "impressions": 282368, "link_clicks": 2855, "all_clicks": 4940, "reach": 186581, "cpr": 0.83, "cpm": 1.05, "cpc_link": 0.1, "cpc_all": 0.06, "ctr_link": 1.011, "ctr_all": 1.749, "cvr": 12.54, "freq": 1.51, "partial": false, "idx_cpr": 77.03, "idx_cpm": 69.65, "idx_ctr": 125.16, "idx_cvr": 70.32, "ma_cpr": 0.83, "ma_cpm": 1.05, "ma_spend": 296.44, "wow_cpr": null}, {"week": "2026-01-08", "spend": 401.31, "results": 371, "impressions": 287753, "link_clicks": 2219, "all_clicks": 4607, "reach": 195684, "cpr": 1.08, "cpm": 1.39, "cpc_link": 0.18, "cpc_all": 0.09, "ctr_link": 0.771, "ctr_all": 1.601, "cvr": 16.72, "freq": 1.47, "partial": false, "idx_cpr": 100.23, "idx_cpm": 92.21, "idx_ctr": 95.45, "idx_cvr": 93.76, "ma_cpr": 0.96, "ma_cpm": 1.22, "ma_spend": 348.88, "wow_cpr": 30.1}, {"week": "2026-01-15", "spend": 533.54, "results": 415, "impressions": 330492, "link_clicks": 2436, "all_clicks": 5132, "reach": 211984, "cpr": 1.29, "cpm": 1.61, "cpc_link": 0.22, "cpc_all": 0.1, "ctr_link": 0.737, "ctr_all": 1.553, "cvr": 17.04, "freq": 1.56, "partial": false, "idx_cpr": 119.72, "idx_cpm": 106.8, "idx_ctr": 91.24, "idx_cvr": 95.56, "ma_cpr": 1.07, "ma_cpm": 1.35, "ma_spend": 410.43, "wow_cpr": 19.4}, {"week": "2026-01-22", "spend": 486.83, "results": 438, "impressions": 245767, "link_clicks": 1750, "all_clicks": 4012, "reach": 169767, "cpr": 1.11, "cpm": 1.98, "cpc_link": 0.28, "cpc_all": 0.12, "ctr_link": 0.712, "ctr_all": 1.632, "cvr": 25.03, "freq": 1.45, "partial": false, "idx_cpr": 103.02, "idx_cpm": 131.34, "idx_ctr": 88.15, "idx_cvr": 140.36, "ma_cpr": 1.08, "ma_cpm": 1.51, "ma_spend": 429.53, "wow_cpr": -14.0}, {"week": "2026-01-29", "spend": 205.61, "results": 174, "impressions": 122881, "link_clicks": 716, "all_clicks": 1896, "reach": 96165, "cpr": 1.18, "cpm": 1.67, "cpc_link": 0.29, "cpc_all": 0.11, "ctr_link": 0.583, "ctr_all": 1.543, "cvr": 24.3, "freq": 1.28, "partial": true, "idx_cpr": 109.51, "idx_cpm": 110.78, "idx_ctr": 72.18, "idx_cvr": 136.27, "ma_cpr": 1.17, "ma_cpm": 1.66, "ma_spend": 406.82, "wow_cpr": 6.3}, {"week": "2026-02-01", "spend": 523.72, "results": 538, "impressions": 272128, "link_clicks": 1980, "all_clicks": 4777, "reach": 176513, "cpr": 0.97, "cpm": 1.92, "cpc_link": 0.26, "cpc_all": 0.11, "ctr_link": 0.728, "ctr_all": 1.755, "cvr": 27.17, "freq": 1.54, "partial": false, "idx_cpr": 90.02, "idx_cpm": 127.36, "idx_ctr": 90.13, "idx_cvr": 152.36, "ma_cpr": 1.14, "ma_cpm": 1.79, "ma_spend": 437.43, "wow_cpr": -17.8}, {"week": "2026-02-08", "spend": 526.39, "results": 487, "impressions": 259633, "link_clicks": 2422, "all_clicks": 4787, "reach": 167280, "cpr": 1.08, "cpm": 2.03, "cpc_link": 0.22, "cpc_all": 0.11, "ctr_link": 0.933, "ctr_all": 1.844, "cvr": 20.11, "freq": 1.55, "partial": false, "idx_cpr": 100.23, "idx_cpm": 134.66, "idx_ctr": 115.51, "idx_cvr": 112.77, "ma_cpr": 1.08, "ma_cpm": 1.9, "ma_spend": 435.64, "wow_cpr": 11.3}, {"week": "2026-02-15", "spend": 530.43, "results": 476, "impressions": 268746, "link_clicks": 3280, "all_clicks": 5356, "reach": 165347, "cpr": 1.11, "cpm": 1.97, "cpc_link": 0.16, "cpc_all": 0.1, "ctr_link": 1.22, "ctr_all": 1.993, "cvr": 14.51, "freq": 1.63, "partial": false, "idx_cpr": 103.02, "idx_cpm": 130.68, "idx_ctr": 151.04, "idx_cvr": 81.37, "ma_cpr": 1.08, "ma_cpm": 1.9, "ma_spend": 446.54, "wow_cpr": 2.8}, {"week": "2026-02-22", "spend": 529.0, "results": 427, "impressions": 255904, "link_clicks": 3238, "all_clicks": 5011, "reach": 161463, "cpr": 1.24, "cpm": 2.07, "cpc_link": 0.16, "cpc_all": 0.11, "ctr_link": 1.265, "ctr_all": 1.958, "cvr": 13.19, "freq": 1.58, "partial": false, "idx_cpr": 115.08, "idx_cpm": 137.31, "idx_ctr": 156.61, "idx_cvr": 73.97, "ma_cpr": 1.1, "ma_cpm": 2.0, "ma_spend": 527.38, "wow_cpr": 11.7}, {"week": "2026-03-01", "spend": 496.05, "results": 396, "impressions": 288206, "link_clicks": 2633, "all_clicks": 4664, "reach": 194025, "cpr": 1.25, "cpm": 1.72, "cpc_link": 0.19, "cpc_all": 0.11, "ctr_link": 0.914, "ctr_all": 1.618, "cvr": 15.04, "freq": 1.49, "partial": false, "idx_cpr": 116.01, "idx_cpm": 114.1, "idx_ctr": 113.15, "idx_cvr": 84.34, "ma_cpr": 1.17, "ma_cpm": 1.95, "ma_spend": 520.47, "wow_cpr": 0.8}, {"week": "2026-03-08", "spend": 459.71, "results": 323, "impressions": 242843, "link_clicks": 1790, "all_clicks": 3638, "reach": 164567, "cpr": 1.42, "cpm": 1.89, "cpc_link": 0.26, "cpc_all": 0.13, "ctr_link": 0.737, "ctr_all": 1.498, "cvr": 18.04, "freq": 1.48, "partial": false, "idx_cpr": 131.79, "idx_cpm": 125.37, "idx_ctr": 91.24, "idx_cvr": 101.16, "ma_cpr": 1.25, "ma_cpm": 1.91, "ma_spend": 503.8, "wow_cpr": 13.6}, {"week": "2026-03-15", "spend": 474.16, "results": 368, "impressions": 265876, "link_clicks": 2190, "all_clicks": 4085, "reach": 176075, "cpr": 1.29, "cpm": 1.78, "cpc_link": 0.22, "cpc_all": 0.12, "ctr_link": 0.824, "ctr_all": 1.536, "cvr": 16.8, "freq": 1.51, "partial": false, "idx_cpr": 119.72, "idx_cpm": 118.08, "idx_ctr": 102.01, "idx_cvr": 94.21, "ma_cpr": 1.3, "ma_cpm": 1.86, "ma_spend": 489.73, "wow_cpr": -9.2}, {"week": "2026-03-22", "spend": 591.63, "results": 444, "impressions": 356705, "link_clicks": 2548, "all_clicks": 4698, "reach": 228762, "cpr": 1.33, "cpm": 1.66, "cpc_link": 0.23, "cpc_all": 0.13, "ctr_link": 0.714, "ctr_all": 1.317, "cvr": 17.43, "freq": 1.56, "partial": false, "idx_cpr": 123.43, "idx_cpm": 110.12, "idx_ctr": 88.39, "idx_cvr": 97.74, "ma_cpr": 1.32, "ma_cpm": 1.76, "ma_spend": 505.39, "wow_cpr": 3.1}, {"week": "2026-03-29", "spend": 553.52, "results": 393, "impressions": 393580, "link_clicks": 2429, "all_clicks": 4943, "reach": 250447, "cpr": 1.41, "cpm": 1.41, "cpc_link": 0.23, "cpc_all": 0.11, "ctr_link": 0.617, "ctr_all": 1.256, "cvr": 16.18, "freq": 1.57, "partial": false, "idx_cpr": 130.86, "idx_cpm": 93.53, "idx_ctr": 76.39, "idx_cvr": 90.73, "ma_cpr": 1.36, "ma_cpm": 1.69, "ma_spend": 519.75, "wow_cpr": 6.0}, {"week": "2026-04-05", "spend": 613.51, "results": 362, "impressions": 411171, "link_clicks": 2215, "all_clicks": 4508, "reach": 254876, "cpr": 1.69, "cpm": 1.49, "cpc_link": 0.28, "cpc_all": 0.14, "ctr_link": 0.539, "ctr_all": 1.096, "cvr": 16.34, "freq": 1.61, "partial": false, "idx_cpr": 156.84, "idx_cpm": 98.84, "idx_ctr": 66.73, "idx_cvr": 91.63, "ma_cpr": 1.43, "ma_cpm": 1.58, "ma_spend": 558.21, "wow_cpr": 19.9}, {"week": "2026-04-12", "spend": 54.55, "results": 40, "impressions": 37304, "link_clicks": 247, "all_clicks": 449, "reach": 27350, "cpr": 1.36, "cpm": 1.46, "cpc_link": 0.22, "cpc_all": 0.12, "ctr_link": 0.662, "ctr_all": 1.204, "cvr": 16.19, "freq": 1.36, "partial": false, "idx_cpr": 126.22, "idx_cpm": 96.85, "idx_ctr": 81.96, "idx_cvr": 90.79, "ma_cpr": 1.45, "ma_cpm": 1.5, "ma_spend": 453.3, "wow_cpr": -19.5}, {"week": "2026-04-19", "spend": 231.19, "results": 220, "impressions": 141211, "link_clicks": 777, "all_clicks": 1936, "reach": 81757, "cpr": 1.05, "cpm": 1.64, "cpc_link": 0.3, "cpc_all": 0.12, "ctr_link": 0.55, "ctr_all": 1.371, "cvr": 28.31, "freq": 1.73, "partial": false, "idx_cpr": 97.45, "idx_cpm": 108.79, "idx_ctr": 68.09, "idx_cvr": 158.76, "ma_cpr": 1.38, "ma_cpm": 1.5, "ma_spend": 363.19, "wow_cpr": -22.8}, {"week": "2026-04-26", "spend": 306.28, "results": 249, "impressions": 190124, "link_clicks": 1006, "all_clicks": 2534, "reach": 116368, "cpr": 1.23, "cpm": 1.61, "cpc_link": 0.3, "cpc_all": 0.12, "ctr_link": 0.529, "ctr_all": 1.333, "cvr": 24.75, "freq": 1.63, "partial": false, "idx_cpr": 114.15, "idx_cpm": 106.8, "idx_ctr": 65.49, "idx_cvr": 138.79, "ma_cpr": 1.33, "ma_cpm": 1.55, "ma_spend": 301.38, "wow_cpr": 17.1}, {"week": "2026-05-03", "spend": 354.3, "results": 294, "impressions": 300459, "link_clicks": 1448, "all_clicks": 3243, "reach": 176630, "cpr": 1.21, "cpm": 1.18, "cpc_link": 0.24, "cpc_all": 0.11, "ctr_link": 0.482, "ctr_all": 1.079, "cvr": 20.3, "freq": 1.7, "partial": false, "idx_cpr": 112.3, "idx_cpm": 78.28, "idx_ctr": 59.67, "idx_cvr": 113.84, "ma_cpr": 1.21, "ma_cpm": 1.47, "ma_spend": 236.58, "wow_cpr": -1.6}, {"week": "2026-05-10", "spend": 409.54, "results": 302, "impressions": 277303, "link_clicks": 1431, "all_clicks": 3428, "reach": 176711, "cpr": 1.36, "cpm": 1.48, "cpc_link": 0.29, "cpc_all": 0.12, "ctr_link": 0.516, "ctr_all": 1.236, "cvr": 21.1, "freq": 1.57, "partial": false, "idx_cpr": 126.22, "idx_cpm": 98.18, "idx_ctr": 63.88, "idx_cvr": 118.32, "ma_cpr": 1.21, "ma_cpm": 1.48, "ma_spend": 325.33, "wow_cpr": 12.4}, {"week": "2026-05-17", "spend": 619.26, "results": 448, "impressions": 468460, "link_clicks": 2267, "all_clicks": 5623, "reach": 289657, "cpr": 1.38, "cpm": 1.32, "cpc_link": 0.27, "cpc_all": 0.11, "ctr_link": 0.484, "ctr_all": 1.2, "cvr": 19.76, "freq": 1.62, "partial": false, "idx_cpr": 128.07, "idx_cpm": 87.56, "idx_ctr": 59.92, "idx_cvr": 110.81, "ma_cpr": 1.29, "ma_cpm": 1.4, "ma_spend": 422.35, "wow_cpr": 1.5}, {"week": "2026-05-24", "spend": 562.75, "results": 373, "impressions": 403012, "link_clicks": 1815, "all_clicks": 4557, "reach": 246297, "cpr": 1.51, "cpm": 1.4, "cpc_link": 0.31, "cpc_all": 0.12, "ctr_link": 0.45, "ctr_all": 1.131, "cvr": 20.55, "freq": 1.64, "partial": false, "idx_cpr": 140.14, "idx_cpm": 92.87, "idx_ctr": 55.71, "idx_cvr": 115.24, "ma_cpr": 1.36, "ma_cpm": 1.34, "ma_spend": 486.46, "wow_cpr": 9.4}, {"week": "2026-05-31", "spend": 624.73, "results": 562, "impressions": 631035, "link_clicks": 3235, "all_clicks": 6803, "reach": 418095, "cpr": 1.11, "cpm": 0.99, "cpc_link": 0.19, "cpc_all": 0.09, "ctr_link": 0.513, "ctr_all": 1.078, "cvr": 17.37, "freq": 1.51, "partial": false, "idx_cpr": 103.02, "idx_cpm": 65.67, "idx_ctr": 63.51, "idx_cvr": 97.41, "ma_cpr": 1.34, "ma_cpm": 1.3, "ma_spend": 554.07, "wow_cpr": -26.5}, {"week": "2026-06-07", "spend": 475.26, "results": 432, "impressions": 338618, "link_clicks": 1879, "all_clicks": 4238, "reach": 217793, "cpr": 1.1, "cpm": 1.4, "cpc_link": 0.25, "cpc_all": 0.11, "ctr_link": 0.555, "ctr_all": 1.252, "cvr": 22.99, "freq": 1.55, "partial": false, "idx_cpr": 102.09, "idx_cpm": 92.87, "idx_ctr": 68.71, "idx_cvr": 128.92, "ma_cpr": 1.27, "ma_cpm": 1.28, "ma_spend": 570.5, "wow_cpr": -0.9}], "weeks": ["2026-01-01", "2026-01-08", "2026-01-15", "2026-01-22", "2026-01-29", "2026-02-01", "2026-02-08", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-08", "2026-03-15", "2026-03-22", "2026-03-29", "2026-04-05", "2026-04-12", "2026-04-19", "2026-04-26", "2026-05-03", "2026-05-10", "2026-05-17", "2026-05-24", "2026-05-31", "2026-06-07"], "summary": {"cpr": {"base": 1.08, "recent": 1.27, "chg": 18.3}, "cpm": {"base": 1.51, "recent": 1.28, "chg": -15.3}, "ctr": {"base": 0.808, "recent": 0.501, "chg": -38.0}, "cvr": {"base": 17.8, "recent": 20.2, "chg": 13.1}}, "wa_weekly": [{"week": "2026-01-01", "spend": 255.24, "results": 336, "cpr": 0.76, "cpm": 1.04, "ctr": 1.096}, {"week": "2026-01-08", "spend": 306.91, "results": 291, "cpr": 1.05, "cpm": 1.42, "ctr": 0.843}, {"week": "2026-01-15", "spend": 380.19, "results": 312, "cpr": 1.22, "cpm": 1.86, "ctr": 0.853}, {"week": "2026-01-22", "spend": 338.98, "results": 339, "cpr": 1.0, "cpm": 2.34, "ctr": 0.824}, {"week": "2026-01-29", "spend": 157.46, "results": 138, "cpr": 1.14, "cpm": 1.98, "ctr": 0.621}, {"week": "2026-02-01", "spend": 404.89, "results": 458, "cpr": 0.88, "cpm": 2.61, "ctr": 0.92}, {"week": "2026-02-08", "spend": 407.77, "results": 393, "cpr": 1.04, "cpm": 2.67, "ctr": 1.249}, {"week": "2026-02-15", "spend": 411.69, "results": 373, "cpr": 1.1, "cpm": 2.38, "ctr": 1.633}, {"week": "2026-02-22", "spend": 410.24, "results": 346, "cpr": 1.19, "cpm": 2.54, "ctr": 1.697}, {"week": "2026-03-01", "spend": 430.97, "results": 340, "cpr": 1.27, "cpm": 1.92, "ctr": 1.039}, {"week": "2026-03-08", "spend": 424.82, "results": 302, "cpr": 1.41, "cpm": 1.92, "ctr": 0.749}, {"week": "2026-03-15", "spend": 436.77, "results": 347, "cpr": 1.26, "cpm": 1.8, "ctr": 0.848}, {"week": "2026-03-22", "spend": 417.14, "results": 366, "cpr": 1.14, "cpm": 1.78, "ctr": 0.843}, {"week": "2026-03-29", "spend": 334.03, "results": 283, "cpr": 1.18, "cpm": 1.5, "ctr": 0.675}, {"week": "2026-04-05", "spend": 337.62, "results": 271, "cpr": 1.25, "cpm": 1.68, "ctr": 0.626}, {"week": "2026-04-12", "spend": 37.28, "results": 33, "cpr": 1.13, "cpm": 1.29, "ctr": 0.686}, {"week": "2026-04-19", "spend": 231.19, "results": 220, "cpr": 1.05, "cpm": 1.64, "ctr": 0.55}, {"week": "2026-04-26", "spend": 306.28, "results": 249, "cpr": 1.23, "cpm": 1.61, "ctr": 0.529}, {"week": "2026-05-03", "spend": 338.53, "results": 283, "cpr": 1.2, "cpm": 1.17, "ctr": 0.475}, {"week": "2026-05-10", "spend": 359.83, "results": 289, "cpr": 1.25, "cpm": 1.49, "ctr": 0.531}, {"week": "2026-05-17", "spend": 496.81, "results": 338, "cpr": 1.47, "cpm": 1.37, "ctr": 0.48}, {"week": "2026-05-24", "spend": 508.71, "results": 320, "cpr": 1.59, "cpm": 1.42, "ctr": 0.436}, {"week": "2026-05-31", "spend": 439.34, "results": 363, "cpr": 1.21, "cpm": 0.96, "ctr": 0.516}, {"week": "2026-06-07", "spend": 289.76, "results": 240, "cpr": 1.21, "cpm": 1.53, "ctr": 0.531}], "lead_weekly": [{"week": "2026-01-01", "spend": 41.2, "results": 22, "cpr": 1.87, "cpm": 1.13, "ctr": 0.432}, {"week": "2026-01-08", "spend": 94.4, "results": 80, "cpr": 1.18, "cpm": 1.31, "ctr": 0.557}, {"week": "2026-01-15", "spend": 153.35, "results": 103, "cpr": 1.49, "cpm": 1.21, "ctr": 0.549}, {"week": "2026-01-22", "spend": 147.85, "results": 99, "cpr": 1.49, "cpm": 1.47, "ctr": 0.55}, {"week": "2026-01-29", "spend": 48.15, "results": 36, "cpr": 1.34, "cpm": 1.12, "ctr": 0.512}, {"week": "2026-02-01", "spend": 118.83, "results": 80, "cpr": 1.49, "cpm": 1.02, "ctr": 0.472}, {"week": "2026-02-08", "spend": 118.62, "results": 94, "cpr": 1.26, "cpm": 1.11, "ctr": 0.479}, {"week": "2026-02-15", "spend": 118.74, "results": 103, "cpr": 1.15, "cpm": 1.24, "ctr": 0.475}, {"week": "2026-02-22", "spend": 118.76, "results": 81, "cpr": 1.47, "cpm": 1.26, "ctr": 0.526}, {"week": "2026-03-01", "spend": 65.08, "results": 56, "cpr": 1.16, "cpm": 1.02, "ctr": 0.471}, {"week": "2026-03-08", "spend": 34.89, "results": 21, "cpr": 1.66, "cpm": 1.62, "ctr": 0.61}, {"week": "2026-03-15", "spend": 37.39, "results": 21, "cpr": 1.78, "cpm": 1.59, "ctr": 0.57}, {"week": "2026-03-22", "spend": 174.49, "results": 78, "cpr": 2.24, "cpm": 1.43, "ctr": 0.468}, {"week": "2026-03-29", "spend": 219.49, "results": 110, "cpr": 2.0, "cpm": 1.29, "ctr": 0.542}, {"week": "2026-04-05", "spend": 275.89, "results": 91, "cpr": 3.03, "cpm": 1.31, "ctr": 0.455}, {"week": "2026-04-12", "spend": 17.27, "results": 7, "cpr": 2.47, "cpm": 2.08, "ctr": 0.578}, {"week": "2026-04-19", "spend": 0.0, "results": 0, "cpr": null, "cpm": null, "ctr": null}, {"week": "2026-04-26", "spend": 0.0, "results": 0, "cpr": null, "cpm": null, "ctr": null}, {"week": "2026-05-03", "spend": 15.77, "results": 11, "cpr": 1.43, "cpm": 1.47, "ctr": 0.67}, {"week": "2026-05-10", "spend": 49.71, "results": 13, "cpr": 3.82, "cpm": 1.38, "ctr": 0.418}, {"week": "2026-05-17", "spend": 122.45, "results": 110, "cpr": 1.11, "cpm": 1.17, "ctr": 0.496}, {"week": "2026-05-24", "spend": 54.04, "results": 53, "cpr": 1.02, "cpm": 1.18, "ctr": 0.561}, {"week": "2026-05-31", "spend": 185.39, "results": 199, "cpr": 0.93, "cpm": 1.08, "ctr": 0.504}, {"week": "2026-06-07", "spend": 185.5, "results": 192, "cpr": 0.97, "cpm": 1.24, "ctr": 0.585}], "monthly": [{"month": "2026-01", "spend": 1923.73, "results": 1756, "cpr": 1.1, "cpm": 1.52, "ctr": 0.786, "cpc": 0.19, "impressions": 1269261}, {"month": "2026-02", "spend": 2109.54, "results": 1928, "cpr": 1.09, "cpm": 2.0, "ctr": 1.034, "cpc": 0.19, "impressions": 1056411}, {"month": "2026-03", "spend": 2575.07, "results": 1924, "cpr": 1.34, "cpm": 1.66, "ctr": 0.749, "cpc": 0.22, "impressions": 1547210}, {"month": "2026-04", "spend": 1205.53, "results": 871, "cpr": 1.38, "cpm": 1.55, "ctr": 0.544, "cpc": 0.28, "impressions": 779810}, {"month": "2026-05", "spend": 2570.58, "results": 1979, "cpr": 1.3, "cpm": 1.24, "ctr": 0.49, "cpc": 0.25, "impressions": 2080269}, {"month": "2026-06", "spend": 475.26, "results": 432, "cpr": 1.1, "cpm": 1.4, "ctr": 0.555, "cpc": 0.25, "impressions": 338618}], "course_cpr": {"PRE": [0.7, 0.92, 1.28, 1.17, 1.27, 0.99, 1.01, 1.14, 1.33, 1.3, 1.36, 1.21, 1.34, 1.34, 1.59, 0.68, 1.01, 0.83, 0.91, 1.01, 1.0, 1.06, 0.8, 0.77], "TESOL": [1.17, 1.48, 1.15, 0.84, 1.97, 0.65, 0.88, 1.35, 1.32, 1.21, 1.64, 1.3, 1.33, 1.84, 2.53, 2.49, 1.28, 1.74, 1.5, 1.41, 1.6, 2.0, 1.5, 1.72], "BTEC ECE": [1.19, 1.68, 1.53, 1.04, 0.85, 0.95, 1.48, 1.12, 1.07, 1.51, 1.82, 1.33, 1.35, 1.19, 1.47, 1.46, 0.87, 1.22, 1.17, 1.34, 1.64, 1.44, 1.57, 1.23], "TEFL": [0.98, 1.38, 1.57, 0.91, 1.12, 0.94, 1.13, 0.94, 1.33, 0.98, 1.14, 1.08, 1.09, 1.09, 1.4, 2.08, 1.05, 1.29, null, 1.2, 1.81, 2.58, 1.12, 1.81], "MEd": [null, 1.14, 1.64, 1.31, 1.08, 1.46, 1.29, 1.34, 1.46, 1.03, 1.66, 1.84, 1.71, 2.23, 3.44, null, null, null, 1.43, 3.88, 1.74, 1.71, 0.92, 0.71], "DTESL": [0.98, 0.77, 0.91, 1.19, 1.56, 0.7, 1.35, 0.85, 1.16, 1.59, 1.2, 1.74, 1.17, 1.06, 0.91, 0.0, null, null, null, null, null, null, null, null]}, "course_spend": {"PRE": [84.92, 136.29, 204.27, 256.89, 128.12, 323.19, 309.65, 258.41, 257.44, 212.63, 167.45, 203.07, 288.76, 211.85, 217.47, 9.53, 53.31, 83.24, 102.31, 105.19, 204.67, 170.54, 214.93, 185.02], "TESOL": [46.97, 63.46, 72.15, 32.02, 5.92, 13.72, 28.24, 83.55, 83.45, 83.16, 83.52, 83.31, 127.5, 132.47, 154.29, 9.97, 76.57, 133.98, 168.18, 168.98, 159.67, 163.8, 237.09, 195.73], "BTEC ECE": [35.72, 30.22, 42.84, 69.57, 25.55, 68.33, 69.79, 69.74, 69.62, 69.61, 69.28, 69.39, 59.22, 90.46, 119.29, 20.49, 52.05, 68.39, 68.04, 87.1, 106.57, 91.87, 61.21, 24.63], "TEFL": [82.14, 67.64, 75.2, 36.36, 13.45, 34.73, 34.93, 34.92, 34.71, 55.84, 69.72, 48.56, 34.98, 34.88, 54.61, 14.56, 49.26, 20.67, 0.0, 2.4, 61.55, 43.91, 56.0, 47.16], "MEd": [0.0, 42.07, 64.0, 40.58, 17.3, 34.98, 34.88, 34.9, 34.96, 34.93, 34.89, 34.98, 46.19, 49.0, 37.85, 0.0, 0.0, 0.0, 15.77, 34.96, 60.94, 61.62, 34.97, 22.72], "DTESL": [13.75, 27.87, 40.1, 34.42, 12.51, 34.82, 34.98, 34.97, 34.91, 34.95, 34.85, 34.85, 34.98, 34.86, 30.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "Other": [32.94, 33.76, 34.98, 16.99, 2.76, 13.95, 13.92, 13.94, 13.91, 4.93, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.91, 25.86, 31.01, 20.53, 0.0]}, "top_courses": ["PRE", "TESOL", "BTEC ECE", "TEFL", "MEd", "DTESL"], "corr": {"spend_cpr": 0.27, "freq_cpr": 0.11, "cpm_cpr": -0.02, "ctr_cpr": -0.37}, "slope": {"cpr": 0.011, "cpm": -0.019, "ctr": -0.0202}};
+</script>
+<script>
+(function(){
+/* ===== St George Meta Ads Report — app logic ===== */
+const ROOT=document.getElementById('view-perf');
+const D = DATA;
+const C = {crimson:'#B11E2F',ink:'#15213B',gold:'#B0822A',teal:'#2C6E70',line:'#E7E3DA',muted:'#6E7587',good:'#2C7A52'};
+const $ = (s,el=ROOT)=>el.querySelector(s.replace(/#([\w-]+)/g,'[id="$1"]'));
+
+/* formatters */
+const money=(n,d=0)=>'$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const int=n=>Number(n).toLocaleString('en-US');
+const k=n=>n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'k':int(n);
+const pct=n=>(n==null?'—':n.toFixed(2)+'%');
+const cprCls=v=>v==null?'muted-cell':v<1.0?'cpr-good':v<1.6?'cpr-mid':'cpr-bad';
+
+/* Chart.js defaults */
+Chart.defaults.font.family="'IBM Plex Sans',sans-serif";
+Chart.defaults.font.size=11.5;
+Chart.defaults.color=C.muted;
+Chart.defaults.plugins.legend.display=false;
+const gridClr='rgba(21,33,59,.06)';
+const tip={backgroundColor:'#15213B',padding:11,titleFont:{family:"'IBM Plex Mono',monospace",size:10.5,weight:'600'},
+  bodyFont:{family:"'IBM Plex Sans'",size:12.5},cornerRadius:8,displayColors:true,boxPadding:4,
+  titleColor:'#fff',bodyColor:'#E7E3DA',borderColor:'rgba(255,255,255,.08)',borderWidth:1};
+const charts={};
+function mk(id,cfg){if(charts[id])charts[id].destroy();const c=$('#'+id);if(!c)return;charts[id]=new Chart(c,cfg);}
+
+/* ===== TABS ===== */
+const TABS=[
+  ['overview','Overview'],['objectives','Objectives'],['courses','Courses'],
+  ['campaigns','Campaigns'],['creative','Creative'],['placements','Placements'],
+  ['geography','Geography'],['timeline','Timeline'],['playbook','Playbook']
+];
+const bar=$('#tabbar');
+TABS.forEach(([id,label],i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');b.dataset.tab=id;
+  b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span>${label}`;
+  b.onclick=()=>show(id);bar.appendChild(b);
+});
+function show(id){
+  ROOT.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));
+  ROOT.querySelectorAll('.panel').forEach(p=>p.classList.toggle('show',p.id==='p-'+id));
+  window.scrollTo({top:0,behavior:'auto'});
+  if(RENDERED[id]!==true){RENDERERS[id]&&RENDERERS[id]();RENDERED[id]=true;}
+}
+const RENDERED={},RENDERERS={};
+
+/* build panel shells */
+const main=$('#main');
+TABS.forEach(([id])=>{const s=document.createElement('section');s.className='panel'+(id==='overview'?' show':'');s.id='p-'+id;main.appendChild(s);});
+
+/* ============ OVERVIEW ============ */
+RENDERERS.overview=()=>{
+  const p=$('#p-overview'),kp=D.kpi;
+  const wa=D.objective.find(o=>o.name==='WhatsApp'),ld=D.objective.find(o=>o.name==='Lead');
+  p.innerHTML=`
+   <div class="hero">
+     <div class="eyebrow">The headline</div>
+     <div class="hero-thesis">${int(kp.results)} student inquiries, at <em>${money(kp.cpr,2)}</em> each.</div>
+     <p class="hero-sub">Across ${kp.weeks} weeks and ${kp.campaigns} campaigns, ${money(kp.spend)} of Meta spend generated <b>${int(wa.results)} WhatsApp conversations</b> and <b>${int(ld.results)} lead-form submissions</b> for the institute's teacher-training intakes — a blended cost per inquiry of <b>${money(kp.cpr,2)}</b>. For a Sri Lankan education advertiser, that is exceptionally efficient acquisition.</p>
+   </div>
+   <div class="kpis">
+     ${kpi('Total spend',money(kp.spend),'USD · '+kp.weeks+' weeks',true)}
+     ${kpi('Inquiries (results)',int(kp.results),wa.results+' chats · '+ld.results+' leads')}
+     ${kpi('Cost per inquiry',money(kp.cpr,2),'blended CPR',true)}
+     ${kpi('Impressions',k(kp.impressions),int(kp.clicks)+' link clicks')}
+     ${kpi('CTR (link)',pct(kp.ctr),'click-through rate')}
+     ${kpi('CPC (link)',money(kp.cpc,2),'cost per link click')}
+     ${kpi('CPM',money(kp.cpm,2),'cost / 1,000 impr.')}
+     ${kpi('Active now',D.active.length,'campaigns delivering')}
+   </div>
+   <div class="grid g-2-1">
+     <div class="card">
+       <div class="card-head"><div><h3>Where the money went</h3><div class="ch-sub">Weekly spend, split by campaign objective</div></div></div>
+       <div class="chart-box" style="height:300px"><canvas id="ov-area"></canvas></div>
+     </div>
+     <div class="card">
+       <div class="card-head"><div><h3>Objective mix</h3><div class="ch-sub">Share of spend</div></div></div>
+       <div class="chart-box" style="height:200px"><canvas id="ov-dough"></canvas></div>
+       <div class="statrow" style="margin-top:18px">
+         <div class="stat"><div class="v" style="color:${C.crimson}">${money(wa.cpr,2)}</div><div class="l">WhatsApp / chat</div></div>
+         <div class="stat"><div class="v" style="color:${C.gold}">${money(ld.cpr,2)}</div><div class="l">Lead form</div></div>
+         <div class="stat"><div class="v">${pct(kp.ctr)}</div><div class="l">Blended CTR</div></div>
+       </div>
+     </div>
+   </div>
+   <div class="callout"><span class="cross"></span><p><b>Read this first.</b> Two result types are blended here. <b>WhatsApp conversations</b> (${money(wa.cpr,2)}) and <b>lead-form submissions</b> (${money(ld.cpr,2)}) are different actions of different value — a started chat is lighter than a completed lead form. Judge each objective on its own track, and judge both on what they ultimately did downstream: enrollments. This report measures the top of that funnel.</p></div>`;
+
+  const labs=D.weekly.map(w=>w.week.slice(5));
+  mk('ov-area',{type:'line',data:{labels:labs,datasets:[
+    {label:'WhatsApp',data:D.weekly.map(w=>w.wa_spend),borderColor:C.crimson,backgroundColor:'rgba(177,30,47,.10)',fill:true,tension:.35,borderWidth:2,pointRadius:0,pointHoverRadius:4},
+    {label:'Lead form',data:D.weekly.map(w=>w.ld_spend),borderColor:C.gold,backgroundColor:'rgba(176,130,42,.10)',fill:true,tension:.35,borderWidth:2,pointRadius:0,pointHoverRadius:4}
+  ]},options:areaOpts('$')});
+  mk('ov-dough',{type:'doughnut',data:{labels:D.objective.map(o=>o.name),datasets:[{data:D.objective.map(o=>o.spend),backgroundColor:[C.crimson,C.gold],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'62%',plugins:{tooltip:{...tip,callbacks:{label:c=>` ${c.label}: ${money(c.raw)} (${(c.raw/D.kpi.spend*100).toFixed(0)}%)`}}},maintainAspectRatio:false}});
+};
+function kpi(lab,val,sub,acc){
+  const cur=String(val).startsWith('$');const v=cur?`<span class="cur">$</span>${String(val).slice(1)}`:val;
+  return `<div class="kpi${acc?' accent':''}"><div class="lab">${lab}</div><div class="val tnum">${v}</div><div class="sub">${sub}</div></div>`;
+}
+function areaOpts(unit){return {maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+  plugins:{tooltip:{...tip,callbacks:{label:c=>` ${c.dataset.label}: ${unit==='$'?money(c.raw):c.raw}`}}},
+  scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+    y:{grid:{color:gridClr},ticks:{callback:v=>unit==='$'?'$'+v:v},beginAtZero:true}}};}
+
+/* ============ OBJECTIVES ============ */
+RENDERERS.objectives=()=>{
+  const p=$('#p-objectives');const wa=D.objective.find(o=>o.name==='WhatsApp'),ld=D.objective.find(o=>o.name==='Lead');
+  const waR=D.weekly.map(w=>w.wa_cpr).filter(v=>v!=null),ldR=D.weekly.map(w=>w.ld_cpr).filter(v=>v!=null);
+  const waLo=Math.min(...waR),waHi=Math.max(...waR),ldLo=Math.min(...ldR),ldHi=Math.max(...ldR);
+  const bestLead=Math.min(...D.campaigns.filter(c=>c.obj==='Lead'&&c.cpr!=null).map(c=>c.cpr));
+  p.innerHTML=`
+   <div class="eyebrow">Section 02 — Objectives</div>
+   <h2 class="sec">Two engines: chats and leads</h2>
+   <p class="sec-lede">The account runs <b>${wa.campaigns} WhatsApp campaigns</b> that open a chat thread, and <b>${ld.campaigns} lead-form campaigns</b> that capture a name and number. WhatsApp carries ${(wa.spend/D.kpi.spend*100).toFixed(0)}% of spend and is the cheaper, higher-volume engine; lead forms are smaller but capture more structured contact data.</p>
+   <div class="grid g2">
+     <div class="card">
+       <div class="card-head"><div><h3>Volume &amp; efficiency</h3><div class="ch-sub">Spend, inquiries and cost per inquiry</div></div></div>
+       <div class="chart-box" style="height:260px"><canvas id="ob-bars"></canvas></div>
+     </div>
+     <div class="card">
+       <div class="card-head"><div><h3>Cost per inquiry, week by week</h3><div class="ch-sub">WhatsApp is steady; lead-form CPR swings hard</div></div></div>
+       <div class="chart-box" style="height:260px"><canvas id="ob-cpr"></canvas></div>
+     </div>
+   </div>
+   <div class="grid g2">
+     ${objCard(wa,'wa','WhatsApp conversations','Each result is a messaging thread started within 7 days of a click. High volume, very low friction, but a started chat still needs a human to convert it.')}
+     ${objCard(ld,'lead','Lead-form submissions','Each result is a completed instant form. Richer contact data and easier to follow up, but the cost per result is higher and far more volatile.')}
+   </div>
+   <div class="callout gold"><span class="cross"></span><p><b>The lead-form volatility is the story.</b> WhatsApp CPR stayed in a tight ${money(waLo,2)}–${money(waHi,2)} band all period. Lead-form CPR ranged from <b>${money(ldLo,2)} to ${money(ldHi,2)}</b> — it spiked through March and early April, then recovered sharply once a well-built lead campaign came online at ${money(bestLead,2)}. When lead costs climb, it is almost always the form or the offer, not the audience.</p></div>`;
+  mk('ob-bars',{type:'bar',data:{labels:['Spend ($)','Inquiries','CPR ($)'],datasets:[
+    {label:'WhatsApp',data:[wa.spend,wa.results,wa.cpr*100],backgroundColor:C.crimson,borderRadius:5,barPercentage:.7},
+    {label:'Lead form',data:[ld.spend,ld.results,ld.cpr*100],backgroundColor:C.gold,borderRadius:5,barPercentage:.7}
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,pointStyleWidth:8,boxHeight:7,font:{size:11.5}}},
+    tooltip:{...tip,callbacks:{label:c=>{const lab=c.label;const raw=lab==='CPR ($)'?c.raw/100:c.raw;return ` ${c.dataset.label}: ${lab.includes('$')?money(raw,lab==='CPR ($)'?2:0):int(raw)}`;}}}},
+    scales:{x:{grid:{display:false}},y:{grid:{color:gridClr},ticks:{display:false},beginAtZero:true}}}});
+  const labs=D.weekly.map(w=>w.week.slice(5));
+  mk('ob-cpr',{type:'line',data:{labels:labs,datasets:[
+    {label:'WhatsApp',data:D.weekly.map(w=>w.wa_cpr),borderColor:C.crimson,tension:.35,borderWidth:2.2,pointRadius:0,pointHoverRadius:4,spanGaps:true},
+    {label:'Lead form',data:D.weekly.map(w=>w.ld_cpr),borderColor:C.gold,borderDash:[5,4],tension:.35,borderWidth:2.2,pointRadius:0,pointHoverRadius:4,spanGaps:true}
+  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,pointStyleWidth:8,boxHeight:7}},
+    tooltip:{...tip,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw==null?'—':money(c.raw,2)}`}}},
+    scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:9}},y:{grid:{color:gridClr},ticks:{callback:v=>'$'+v},beginAtZero:true}}}});
+};
+function objCard(o,cls,title,desc){
+  return `<div class="card"><div class="card-head"><div><h3>${title}</h3></div><span class="pill ${cls}">${o.campaigns} campaigns</span></div>
+   <div class="statrow">
+     <div class="stat"><div class="v">${money(o.spend)}</div><div class="l">Spend · ${(o.spend/D.kpi.spend*100).toFixed(0)}% of total</div></div>
+     <div class="stat"><div class="v">${int(o.results)}</div><div class="l">Results</div></div>
+     <div class="stat"><div class="v" style="color:${cls==='wa'?C.crimson:C.gold}">${money(o.cpr,2)}</div><div class="l">Cost / result</div></div>
+   </div>
+   <p style="font-size:13px;color:var(--ink-soft);margin-top:16px;line-height:1.6">${desc}</p>
+   <div style="display:flex;gap:22px;margin-top:14px;font-size:12px;color:var(--muted)"><span>CTR <b style="color:var(--ink)">${pct(o.ctr)}</b></span><span>Impressions <b style="color:var(--ink)">${k(o.impressions)}</b></span></div></div>`;
+}
+
+/* ============ COURSES ============ */
+RENDERERS.courses=()=>{
+  const p=$('#p-courses');const cs=D.course.filter(c=>c.spend>1);
+  p.innerHTML=`
+   <div class="eyebrow">Section 03 — Courses</div>
+   <h2 class="sec">Where demand concentrates</h2>
+   <p class="sec-lede"><b>PRE (Primary teaching)</b> is the engine of the account — ${Math.round(D.course.find(c=>c.name.startsWith('PRE')).share)}% of spend at the lowest cost per inquiry. <b>TESOL</b> is the second pillar but runs pricier. Together they take roughly two-thirds of the budget.</p>
+   <div class="grid g-2-1">
+     <div class="card">
+       <div class="card-head"><div><h3>Spend &amp; cost per inquiry by course</h3><div class="ch-sub">Bar length = spend · colour = CPR (green cheap → red costly)</div></div></div>
+       <div class="chart-box" style="height:340px"><canvas id="co-bars"></canvas></div>
+     </div>
+     <div class="card">
+       <div class="card-head"><div><h3>Inquiry volume share</h3></div></div>
+       <div class="chart-box" style="height:230px"><canvas id="co-dough"></canvas></div>
+       <p class="note">PRE + TESOL + BTEC ECE drive ${(cs.slice(0,3).reduce((a,c)=>a+c.results,0)/D.kpi.results*100).toFixed(0)}% of all inquiries.</p>
+     </div>
+   </div>
+   <div class="tbl-scroll" style="margin-top:24px"><table id="co-tbl"><thead><tr>
+     <th>Course</th><th>Spend</th><th>Share</th><th>Inquiries</th><th>CPR</th><th>CTR</th><th>Campaigns</th></tr></thead><tbody>
+     ${cs.map(c=>`<tr><td>${c.name}</td><td class="tnum">${money(c.spend)}</td><td class="tnum">${c.share}%</td><td class="tnum">${int(c.results)}</td><td class="tnum ${cprCls(c.cpr)}">${c.cpr==null?'—':money(c.cpr,2)}</td><td class="tnum">${pct(c.ctr)}</td><td class="tnum">${c.campaigns}</td></tr>`).join('')}
+   </tbody></table></div>
+   <div class="callout teal"><span class="cross"></span><p><b>PRE is your most scalable line.</b> It already absorbs the most budget yet holds the joint-lowest CPR (${money(cs.find(c=>c.name.startsWith('PRE')).cpr,2)}) — the rare combination of high volume and low cost that signals room to scale further. <b>TESOL and MEd / Montessori</b> sit at ${money(D.course.find(c=>c.name==='TESOL').cpr,2)}+ per inquiry; worth testing fresh creative and offers before adding budget there.</p></div>`;
+  const labels=cs.map(c=>c.name);
+  mk('co-bars',{type:'bar',data:{labels,datasets:[
+    {label:'Spend',data:cs.map(c=>c.spend),backgroundColor:cs.map(c=>c.cpr==null?C.muted:c.cpr<1.15?C.good:c.cpr<1.5?C.ink:C.crimson),borderRadius:5,barPercentage:.66}
+  ]},options:{indexAxis:'y',maintainAspectRatio:false,
+    plugins:{tooltip:{...tip,callbacks:{label:c=>[` Spend ${money(c.raw)} (${cs[c.dataIndex].share}%)`,` CPR ${cs[c.dataIndex].cpr==null?'—':money(cs[c.dataIndex].cpr,2)}`,` Inquiries ${int(cs[c.dataIndex].results)}`]}}},
+    scales:{x:{grid:{color:gridClr},ticks:{callback:v=>'$'+v},beginAtZero:true},y:{grid:{display:false}}}}});
+  mk('co-dough',{type:'doughnut',data:{labels:cs.map(c=>c.name),datasets:[{data:cs.map(c=>c.results),
+    backgroundColor:[C.crimson,C.ink,C.gold,C.teal,'#8A6BA8','#C98A3A','#5B7DB1','#9AA0AE'],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'58%',maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{boxWidth:9,boxHeight:9,font:{size:10.5},padding:8}},
+      tooltip:{...tip,callbacks:{label:c=>` ${c.label}: ${int(c.raw)} (${(c.raw/D.kpi.results*100).toFixed(0)}%)`}}}}});
+};
+
+/* ============ CAMPAIGNS ============ */
+let campState={q:'',obj:'all',sort:'spend',dir:-1};
+RENDERERS.campaigns=()=>{
+  const p=$('#p-campaigns');
+  p.innerHTML=`
+   <div class="eyebrow">Section 04 — Campaigns</div>
+   <h2 class="sec">Every campaign, ranked</h2>
+   <p class="sec-lede">43 campaigns carried meaningful spend. The efficiency map plots each one by spend and cost per inquiry — <b>bottom-right is the sweet spot</b> (big spend, low cost). Bubble size is inquiry volume.</p>
+   <div class="card" style="margin-top:26px">
+     <div class="card-head"><div><h3>Efficiency map</h3><div class="ch-sub">X: spend · Y: cost per inquiry (lower is better) · size: inquiries</div></div></div>
+     <div class="chart-box" style="height:360px"><canvas id="cm-scatter"></canvas></div>
+   </div>
+   <div class="tbl-tools">
+     <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+       <input id="cm-search" placeholder="Search campaigns…" autocomplete="off"></div>
+     <div class="chips">
+       <button class="chip on" data-obj="all">All</button>
+       <button class="chip" data-obj="WhatsApp">WhatsApp</button>
+       <button class="chip" data-obj="Lead">Lead</button>
+     </div>
+   </div>
+   <div class="tbl-scroll"><table id="cm-tbl"><thead><tr>
+     <th data-s="name">Campaign</th><th data-s="obj">Type</th><th data-s="spend" class="sorted">Spend<span class="ar">▼</span></th>
+     <th data-s="results">Inquiries</th><th data-s="cpr">CPR</th><th data-s="ctr">CTR</th><th data-s="impressions">Impr.</th><th data-s="clicks">Clicks</th></tr></thead>
+     <tbody id="cm-body"></tbody></table></div>
+   <p class="note">CPR colour: green &lt; $1.00 · neutral $1.00–$1.60 · red &gt; $1.60. Sorted columns are clickable.</p>`;
+
+  $('#cm-search').oninput=e=>{campState.q=e.target.value.toLowerCase();drawCampaigns();};
+  document.querySelectorAll('#p-campaigns .chip').forEach(c=>c.onclick=()=>{
+    document.querySelectorAll('#p-campaigns .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');
+    campState.obj=c.dataset.obj;drawCampaigns();});
+  document.querySelectorAll('#cm-tbl thead th').forEach(th=>th.onclick=()=>{
+    const s=th.dataset.s;if(campState.sort===s)campState.dir*=-1;else{campState.sort=s;campState.dir=s==='name'||s==='obj'?1:-1;}
+    drawCampaigns();});
+  drawScatter();drawCampaigns();
+};
+function drawScatter(){
+  const pts=D.campaigns.filter(c=>c.cpr!=null);
+  const ds=(obj,col)=>({label:obj,data:pts.filter(c=>c.obj===obj).map(c=>({x:c.spend,y:c.cpr,r:Math.max(4,Math.sqrt(c.results)*1.1),name:c.name,res:c.results})),
+    backgroundColor:col+'cc',borderColor:col,borderWidth:1});
+  mk('cm-scatter',{type:'bubble',data:{datasets:[ds('WhatsApp',C.crimson),ds('Lead',C.gold)]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,pointStyleWidth:8,boxHeight:7}},
+      tooltip:{...tip,callbacks:{title:c=>c[0].raw.name,label:c=>[` Spend ${money(c.raw.x)}`,` CPR ${money(c.raw.y,2)}`,` Inquiries ${int(c.raw.res)}`]}}},
+      scales:{x:{grid:{color:gridClr},title:{display:true,text:'Spend (USD)',color:C.muted,font:{size:10}},ticks:{callback:v=>'$'+v}},
+        y:{grid:{color:gridClr},title:{display:true,text:'Cost per inquiry (USD)',color:C.muted,font:{size:10}},ticks:{callback:v=>'$'+v},reverse:false}}}});
+}
+function drawCampaigns(){
+  let rows=D.campaigns.filter(c=>(campState.obj==='all'||c.obj===campState.obj)&&c.name.toLowerCase().includes(campState.q));
+  const s=campState.sort,dir=campState.dir;
+  rows.sort((a,b)=>{let x=a[s],y=b[s];if(typeof x==='string')return dir*x.localeCompare(y);return dir*((x??-1)-(y??-1));});
+  document.querySelectorAll('#cm-tbl thead th').forEach(th=>{th.classList.toggle('sorted',th.dataset.s===s);
+    const ar=th.querySelector('.ar');if(ar)ar.remove();if(th.dataset.s===s)th.insertAdjacentHTML('beforeend',`<span class="ar">${dir<0?'▼':'▲'}</span>`);});
+  const max=Math.max(...rows.map(r=>r.spend),1);
+  $('#cm-body').innerHTML=rows.map(c=>`<tr>
+    <td class="barcell"><div class="bar" style="width:${c.spend/max*100}%"></div><span>${c.name}</span></td>
+    <td style="text-align:right"><span class="pill ${c.obj==='WhatsApp'?'wa':'lead'}">${c.obj==='WhatsApp'?'WA':'Lead'}</span></td>
+    <td class="tnum">${money(c.spend)}</td><td class="tnum">${int(c.results)}</td>
+    <td class="tnum ${cprCls(c.cpr)}">${c.cpr==null?'—':money(c.cpr,2)}</td>
+    <td class="tnum">${pct(c.ctr)}</td><td class="tnum muted-cell">${k(c.impressions)}</td><td class="tnum muted-cell">${int(c.clicks)}</td></tr>`).join('')
+    || `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:30px">No campaigns match.</td></tr>`;
+}
+
+/* ============ CREATIVE ============ */
+RENDERERS.creative=()=>{
+  const p=$('#p-creative');const ads=D.ads.slice(0,18);const r=D.rankings;
+  const sum=o=>Object.values(o).reduce((a,b)=>a+b,0);
+  const rrow=(o,name)=>{const t=sum(o);const ab=(o['Above average']||0),av=(o['Average']||0),bl=t-ab-av;
+    return `<div class="rankrow"><div class="rr-top"><span class="l">${name}</span><span class="v">${ab} above · ${av} avg · ${bl} below</span></div>
+      <div class="rbar"><i class="above" style="width:${ab/t*100}%"></i><i class="avg" style="width:${av/t*100}%"></i><i class="below" style="width:${bl/t*100}%"></i></div></div>`;};
+  p.innerHTML=`
+   <div class="eyebrow">Section 05 — Creative</div>
+   <h2 class="sec">The ads doing the work</h2>
+   <p class="sec-lede">${D.ads.length} creatives spent budget; a handful carry most of the load. Frequency stays low (~1.5–1.7), so these ads are buying <b>fresh reach, not re-hitting the same people</b> — fatigue is not the constraint here. The constraint is engagement quality.</p>
+   <div class="grid g2">
+     <div class="card">
+       <div class="card-head"><div><h3>Quality vs the competition</h3><div class="ch-sub">Meta's relative rankings, share of rated ads</div></div></div>
+       <div class="rankgrid">${rrow(r.quality,'Quality ranking')}${rrow(r.engagement,'Engagement rate')}${rrow(r.conversion,'Conversion rate')}</div>
+       <div class="rlegend"><span><i style="background:var(--good)"></i>Above avg</span><span><i style="background:var(--gold)"></i>Average</span><span><i style="background:var(--crimson)"></i>Below avg</span></div>
+     </div>
+     <div class="card">
+       <div class="card-head"><div><h3>Cost vs click-through</h3><div class="ch-sub">Each dot is an ad · bottom-left = cheap + engaging</div></div></div>
+       <div class="chart-box" style="height:270px"><canvas id="cr-scatter"></canvas></div>
+     </div>
+   </div>
+   <div class="callout"><span class="cross"></span><p><b>Quality is fine; engagement and conversion rankings lag.</b> Most creatives land "average" or "above average" on quality, but cluster in the <b>bottom 35%</b> for engagement and conversion rate versus competing advertisers. That pattern — cheap reach, weak relative engagement — is typical of broad WhatsApp campaigns. It is working because the offer and CPR are strong, but it is the clearest lever for the next improvement: stronger hooks and first-frames.</p></div>
+   <h3 style="font-family:'Fraunces',serif;font-size:20px;margin:34px 0 4px">Top 18 creatives by spend</h3>
+   <div class="tbl-scroll" style="margin-top:14px"><table><thead><tr>
+     <th>Ad name</th><th>Type</th><th>Spend</th><th>Inquiries</th><th>CPR</th><th>CTR</th><th>Freq.</th><th>Wks live</th></tr></thead><tbody>
+     ${ads.map(a=>`<tr><td>${a.name}</td><td style="text-align:right"><span class="pill ${a.obj==='WhatsApp'?'wa':'lead'}">${a.obj==='WhatsApp'?'WA':'Lead'}</span></td>
+       <td class="tnum">${money(a.spend)}</td><td class="tnum">${int(a.results)}</td><td class="tnum ${cprCls(a.cpr)}">${a.cpr==null?'—':money(a.cpr,2)}</td>
+       <td class="tnum">${pct(a.ctr)}</td><td class="tnum muted-cell">${a.freq==null?'—':a.freq.toFixed(2)}</td><td class="tnum muted-cell">${a.weeks}</td></tr>`).join('')}
+   </tbody></table></div>`;
+  const ad=D.ads.filter(a=>a.cpr!=null&&a.ctr!=null&&a.spend>10);
+  const ds=(obj,col)=>({label:obj,data:ad.filter(a=>a.obj===obj).map(a=>({x:a.ctr,y:a.cpr,name:a.name,res:a.results})),backgroundColor:col+'bb',borderColor:col,borderWidth:1,pointRadius:5,pointHoverRadius:7});
+  mk('cr-scatter',{type:'scatter',data:{datasets:[ds('WhatsApp',C.crimson),ds('Lead',C.gold)]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,pointStyleWidth:8,boxHeight:7}},
+      tooltip:{...tip,callbacks:{title:c=>c[0].raw.name,label:c=>[` CTR ${pct(c.raw.x)}`,` CPR ${money(c.raw.y,2)}`]}}},
+      scales:{x:{grid:{color:gridClr},title:{display:true,text:'CTR (link) %',color:C.muted,font:{size:10}},ticks:{callback:v=>v+'%'}},
+        y:{grid:{color:gridClr},title:{display:true,text:'Cost per inquiry $',color:C.muted,font:{size:10}},ticks:{callback:v=>'$'+v}}}}});
+};
+
+/* ============ PLACEMENTS ============ */
+RENDERERS.placements=()=>{
+  const p=$('#p-placements');const plats=D.platform,places=D.placement.slice(0,10),dev=D.device;
+  p.innerHTML=`
+   <div class="eyebrow">Section 06 — Placements</div>
+   <h2 class="sec">Facebook Feed, on a phone</h2>
+   <p class="sec-lede">The account is overwhelmingly <b>Facebook (${Math.round(plats[0].share)}% of spend), in-Feed, on mobile in-app</b>. Instagram costs ~${Math.round((plats[1].cpr/plats[0].cpr-1)*100)}% more per inquiry. A few small placements — Search results and Reels ad slots — are quietly the cheapest.</p>
+   <div class="grid g3">
+     <div class="card"><div class="card-head"><div><h3>Platform</h3><div class="ch-sub">Share of spend</div></div></div>
+       <div class="chart-box" style="height:185px"><canvas id="pl-plat"></canvas></div>
+       <div class="statrow" style="margin-top:14px;grid-template-columns:1fr 1fr">
+         <div class="stat"><div class="v" style="color:${C.crimson}">${money(plats[0].cpr,2)}</div><div class="l">Facebook CPR</div></div>
+         <div class="stat"><div class="v" style="color:${C.gold}">${money(plats[1].cpr,2)}</div><div class="l">Instagram CPR</div></div>
+       </div></div>
+     <div class="card"><div class="card-head"><div><h3>Device</h3><div class="ch-sub">Where ads were seen</div></div></div>
+       <div class="chart-box" style="height:185px"><canvas id="pl-dev"></canvas></div>
+       <p class="note" style="margin-top:14px">99% of spend delivered <b>in-app on mobile</b>. Desktop is a rounding error — design for the phone screen.</p></div>
+     <div class="card"><div class="card-head"><div><h3>Cheapest pockets</h3><div class="ch-sub">Lowest CPR placements</div></div></div>
+       ${[...D.placement].filter(x=>x.results>10).sort((a,b)=>a.cpr-b.cpr).slice(0,5).map(x=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px"><span>${x.name}</span><b class="tnum" style="color:${C.good}">${money(x.cpr,2)}</b></div>`).join('')}
+     </div>
+   </div>
+   <div class="card" style="margin-top:22px"><div class="card-head"><div><h3>Placement detail</h3><div class="ch-sub">Spend share with cost per inquiry</div></div></div>
+     <div class="chart-box" style="height:330px"><canvas id="pl-place"></canvas></div></div>
+   <div class="callout teal"><span class="cross"></span><p><b>Two cheap placements are under-fed.</b> "Ads on Facebook Reels" (${money(D.placement.find(x=>x.name==='Ads on Facebook Reels').cpr,2)}) and "Search results" (${money(D.placement.find(x=>x.name==='Search results').cpr,2)}) both convert below the account average but receive a sliver of budget. Instagram Stories is the most expensive surface at ${money(D.placement.find(x=>x.name==='Instagram Stories').cpr,2)}. As you scale, lean into Feed + Reels and let Advantage+ placements find the cheap reels inventory.</p></div>`;
+  mk('pl-plat',{type:'doughnut',data:{labels:plats.map(x=>x.name),datasets:[{data:plats.map(x=>x.spend),backgroundColor:[C.crimson,C.gold,C.teal,C.ink,'#9AA0AE'],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'60%',maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{boxWidth:9,boxHeight:9,font:{size:10},padding:7}},tooltip:{...tip,callbacks:{label:c=>` ${c.label}: ${money(c.raw)} (${(c.raw/D.kpi.spend*100).toFixed(0)}%)`}}}}});
+  mk('pl-dev',{type:'doughnut',data:{labels:dev.map(x=>x.name),datasets:[{data:dev.map(x=>x.spend),backgroundColor:[C.ink,C.teal,C.gold],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'60%',maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{boxWidth:9,boxHeight:9,font:{size:10},padding:7}},tooltip:{...tip,callbacks:{label:c=>` ${c.label}: ${(c.raw/D.kpi.spend*100).toFixed(1)}%`}}}}});
+  mk('pl-place',{type:'bar',data:{labels:places.map(x=>x.name),datasets:[
+    {label:'Spend',data:places.map(x=>x.spend),backgroundColor:places.map(x=>x.cpr<1?C.good:x.cpr<1.6?C.ink:C.crimson),borderRadius:5,barPercentage:.66}]},
+    options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{...tip,callbacks:{label:c=>[` Spend ${money(c.raw)}`,` CPR ${money(places[c.dataIndex].cpr,2)}`,` CTR ${pct(places[c.dataIndex].ctr)}`]}}},
+      scales:{x:{grid:{color:gridClr},ticks:{callback:v=>'$'+v},beginAtZero:true},y:{grid:{display:false}}}}});
+};
+
+/* ============ GEOGRAPHY ============ */
+RENDERERS.geography=()=>{
+  const p=$('#p-geography');const rg=D.region;
+  p.innerHTML=`
+   <div class="eyebrow">Section 07 — Geography</div>
+   <h2 class="sec">A Western Province story</h2>
+   <p class="sec-lede"><b>${rg[0].share}% of spend</b> lands in Western Province — the Colombo metro belt where the institute sits. Central and North Western follow at a distance. Targeting discipline is tight: ${D.region_meta.sl_share}% of measured spend stayed inside Sri Lanka, with only ${money(D.region_meta.intl_spend,2)} leaking abroad.</p>
+   <div class="grid g-2-1">
+     <div class="card"><div class="card-head"><div><h3>Spend by province</h3><div class="ch-sub">Share of budget · all 9 provinces</div></div></div>
+       <div class="chart-box" style="height:330px"><canvas id="ge-bars"></canvas></div></div>
+     <div class="card"><div class="card-head"><div><h3>People reached</h3><div class="ch-sub">Unique reach per province</div></div></div>
+       ${rg.map(x=>`<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px"><span>${x.name}</span><b class="tnum">${k(x.reach)}</b></div><div class="rbar" style="height:7px"><i style="width:${x.reach/rg[0].reach*100}%;background:${C.teal}"></i></div></div>`).join('')}
+     </div>
+   </div>
+   <div class="callout gold"><span class="cross"></span><p><b>The opportunity sits outside Colombo.</b> Western Province is saturated with budget; <b>Central, North Western, Southern and Sabaragamuwa</b> together took under 25% of spend but reached hundreds of thousands of people at healthy CTRs. If intake capacity allows out-of-Colombo students, these provinces are the cleanest place to find incremental, lower-competition demand. (Province-level CPR is omitted — Meta only attributes a fraction of WhatsApp results to a region, so it understates true efficiency.)</p></div>`;
+  mk('ge-bars',{type:'bar',data:{labels:rg.map(x=>x.name),datasets:[{label:'Spend',data:rg.map(x=>x.spend),
+    backgroundColor:rg.map((x,i)=>i===0?C.crimson:C.ink),borderRadius:5,barPercentage:.68}]},
+    options:{indexAxis:'y',maintainAspectRatio:false,plugins:{tooltip:{...tip,callbacks:{label:c=>[` Spend ${money(c.raw)} (${rg[c.dataIndex].share}%)`,` Reach ${k(rg[c.dataIndex].reach)}`,` CTR ${pct(rg[c.dataIndex].ctr)}`]}}},
+      scales:{x:{grid:{color:gridClr},ticks:{callback:v=>'$'+v},beginAtZero:true},y:{grid:{display:false}}}}});
+};
+
+/* ============ TIMELINE ============ */
+let tlMetric='spend';
+RENDERERS.timeline=()=>{
+  const p=$('#p-timeline');
+  p.innerHTML=`
+   <div class="eyebrow">Section 08 — Timeline</div>
+   <h2 class="sec">${D.kpi.weeks} weeks, one new-year pause</h2>
+   <p class="sec-lede">Now spanning all of January through mid-June. Spend held a steady ~$400–620/week rhythm. The visible collapse to <b>$55 in the week of 12 Apr</b> is the <b>Sinhala &amp; Tamil New Year (Avurudu)</b> — ads were paused over the holiday, then rebuilt. The low <b>29 Jan</b> bar is just a 3-day partial week at the export boundary, not a real dip. Cost per inquiry drifted up through Q1, peaked in early April, and has eased since May.</p>
+   <div class="card" style="margin-top:24px">
+     <div class="card-head"><div><h3 id="tl-title">Weekly spend</h3><div class="ch-sub" id="tl-sub">USD per week</div></div>
+       <div class="metric-toggle" id="tl-toggle">
+         <button class="on" data-m="spend">Spend</button><button data-m="results">Inquiries</button>
+         <button data-m="cpr">CPR</button><button data-m="ctr">CTR</button><button data-m="freq">Frequency</button>
+       </div></div>
+     <div class="chart-box" style="height:340px"><canvas id="tl-chart"></canvas></div>
+   </div>
+   <div class="grid g3" style="margin-top:22px">
+     <div class="card" style="padding:20px"><div class="stat"><div class="v" style="color:${C.good}">${money(Math.min(...D.weekly.map(w=>w.cpr)),2)}</div><div class="l">Best weekly CPR — ${D.weekly.reduce((a,b)=>b.cpr<a.cpr?b:a).week}</div></div></div>
+     <div class="card" style="padding:20px"><div class="stat"><div class="v" style="color:${C.crimson}">${money(Math.max(...D.weekly.map(w=>w.cpr)),2)}</div><div class="l">Worst weekly CPR — ${D.weekly.reduce((a,b)=>b.cpr>a.cpr?b:a).week} (post-Avurudu ramp)</div></div></div>
+     <div class="card" style="padding:20px"><div class="stat"><div class="v">${k(Math.max(...D.weekly.map(w=>w.impressions)))}</div><div class="l">Peak weekly impressions — ${D.weekly.reduce((a,b)=>b.impressions>a.impressions?b:a).week}</div></div></div>
+   </div>`;
+  document.querySelectorAll('#tl-toggle button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('#tl-toggle button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    tlMetric=b.dataset.m;drawTimeline();});
+  drawTimeline();
+};
+function drawTimeline(){
+  const cfg={spend:['Weekly spend','USD per week','$',C.crimson,true],
+    results:['Weekly inquiries','Results per week','',C.ink,true],
+    cpr:['Cost per inquiry','USD per result','$',C.crimson,false],
+    ctr:['Click-through rate','Link CTR %','%',C.teal,false],
+    freq:['Frequency','Avg impressions per person','',C.gold,false]}[tlMetric];
+  $('#tl-title').textContent=cfg[0];$('#tl-sub').textContent=cfg[1];
+  const labs=D.weekly.map(w=>w.week.slice(5)),vals=D.weekly.map(w=>w[tlMetric]);
+  const u=cfg[2];
+  mk('tl-chart',{type:'line',data:{labels:labs,datasets:[{data:vals,borderColor:cfg[3],
+    backgroundColor:cfg[4]?cfg[3]+'18':'transparent',fill:cfg[4],tension:.34,borderWidth:2.4,
+    pointRadius:D.weekly.map(w=>(w.week==='2026-04-12'||w.partial)?5:2.5),pointBackgroundColor:cfg[3],
+    pointBorderColor:'#fff',pointBorderWidth:1.5,pointHoverRadius:6}]},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{tooltip:{...tip,callbacks:{title:c=>'Week of 2026-'+c[0].label,
+        label:c=>{const v=c.raw;return ' '+(u==='$'?money(v,tlMetric==='cpr'?2:0):u==='%'?pct(v):tlMetric==='freq'?v.toFixed(2):int(v));}}}},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+        y:{grid:{color:gridClr},beginAtZero:tlMetric!=='cpr'&&tlMetric!=='freq',
+          ticks:{callback:v=>u==='$'?'$'+v:u==='%'?v+'%':v}}}}});
+}
+
+/* ============ PLAYBOOK ============ */
+RENDERERS.playbook=()=>{
+  const p=$('#p-playbook');
+  const plays=[
+    ['01','crimson','Scale PRE — it has earned it','Primary teaching takes the largest share of budget yet holds the lowest cost per inquiry of any course. That combination — high volume and low cost — is rare. <b>Push budget here first</b>, ideally via consolidated Advantage+ / CBO structures so the algorithm pools learnings instead of splitting them across many small ad sets.','Highest-confidence growth'],
+    ['02','gold','Stabilise the lead-form engine','Lead CPR has swung more than fourfold week to week. The cheapest weeks all came from one well-built campaign. <b>Audit the underperforming forms</b> — field count, offer clarity, instant-form vs landing page — and standardise on what the cheap campaigns are doing.','Fix volatility'],
+    ['03','teal','Lift engagement, not just reach','Quality ranks fine, but engagement and conversion-rate rankings sit in the bottom 35%. Frequency is low, so fatigue is not the issue — the <b>hook is</b>. Test stronger first-frames, captions, and student-proof social content (testimonials, results, faces) to climb those rankings.','Biggest creative lever'],
+    ['04','ink','Feed the cheap placements','"Ads on Facebook Reels" (~$0.49) and "Search results" (~$0.61) convert well below account average but get scraps of budget. <b>Let Advantage+ placements run</b> and stop excluding the cheap reels/search inventory that the data already rewards.','Quick efficiency win'],
+    ['05','crimson','Test beyond Colombo','Western Province absorbs ${WP}% of spend. Central, North Western and Southern reached large audiences at healthy CTRs on a fraction of the budget. <b>If you can enrol students from these provinces</b>, they are the cleanest source of incremental, lower-competition demand.','Untapped geography'],
+    ['06','gold','Protect the calendar','The Avurudu pause was correct — but the post-holiday week had your <b>worst CPR of the period</b> as delivery re-learned. Plan ramp-downs and ramp-ups around Sri Lankan intake and festival calendars so the learning phase does not cost you twice.','Operational hygiene']
+  ];
+  p.innerHTML=`
+   <div class="eyebrow">Section 09 — Playbook</div>
+   <h2 class="sec">Six moves for the next quarter</h2>
+   <p class="sec-lede">The account is healthy and efficient. These are the highest-leverage changes, ordered by confidence — built only from what this data shows, not generic best practice.</p>
+   <div class="plays">${plays.map(([n,cls,h,b,tag])=>`<div class="play ${cls}"><div class="pnum">MOVE ${n}</div><h4>${h}</h4><p>${b.replace('${WP}',D.region[0].share)}</p><span class="tag">${tag}</span></div>`).join('')}</div>
+   <div class="callout" style="margin-top:30px"><span class="cross"></span><p><b>One measurement caveat to close on.</b> Every number here is top-of-funnel — chats started and forms filled. The metric that actually matters is <b>cost per enrolled student</b>. Tag each WhatsApp number and lead source so you can trace which campaigns, courses and provinces produce real admissions, then re-rank this entire report on enrolment value. That is where the next 10x of efficiency hides.</p></div>`;
+};
+
+/* boot */
+RENDERERS.overview();RENDERED.overview=true;
+
+})();
+
+(function(){
+const ROOT=document.getElementById('view-trends');
+/* ===== St George — Trend & Cost Behaviour ===== */
+const W=T.weekly, MO=T.monthly;
+const C={crimson:'#B11E2F',ink:'#15213B',gold:'#B0822A',teal:'#2C6E70',line:'#E7E3DA',muted:'#6E7587',good:'#2C7A52',violet:'#7A5AA6',slate:'#4F6FA8'};
+const $=(s,el=ROOT)=>el.querySelector(s.replace(/#([\w-]+)/g,'[id="$1"]'));
+const money=(n,d=2)=>n==null?'—':'$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const int=n=>Number(n).toLocaleString('en-US');
+const k=n=>n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'k':int(n);
+const pct=(n,d=2)=>n==null?'—':n.toFixed(d)+'%';
+const lab=w=>w.slice(5);
+const labs=T.weeks.map(lab);
+
+Chart.defaults.font.family="'IBM Plex Sans',sans-serif";Chart.defaults.font.size=11.5;Chart.defaults.color=C.muted;
+Chart.defaults.plugins.legend.display=false;
+const grid='rgba(21,33,59,.06)';
+const tip={backgroundColor:'#15213B',padding:11,titleFont:{family:"'IBM Plex Mono',monospace",size:10.5,weight:'600'},
+  bodyFont:{family:"'IBM Plex Sans'",size:12.5},cornerRadius:8,boxPadding:4,titleColor:'#fff',bodyColor:'#E7E3DA',
+  borderColor:'rgba(255,255,255,.08)',borderWidth:1};
+const charts={};
+function mk(id,cfg){if(charts[id])charts[id].destroy();const c=$('#'+id);if(!c)return;charts[id]=new Chart(c,cfg);}
+// mark the Avurudu pause week
+const AV='2026-04-12';
+const FLAG={'2026-04-12':'Avurudu','2026-01-29':'partial wk'};
+const ptR=(key=null)=>W.map(w=>FLAG[w.week]?5:2.2);
+const ptC=()=>W.map(w=>w.week==='2026-04-12'?C.crimson:(w.week==='2026-01-29'?C.gold:'#fff'));
+
+function lineCfg(unit,opts={}){return {maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+  plugins:{legend:opts.legend||{display:false},tooltip:{...tip,callbacks:{
+    title:c=>'Week of 2026-'+c[0].label,
+    label:c=>` ${c.dataset.label}: ${c.raw==null?'—':unit==='$'?money(c.raw,opts.md??2):unit==='%'?pct(c.raw,opts.pd??2):unit==='idx'?c.raw+'':c.raw}`}}},
+  scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+    y:{grid:{color:grid},beginAtZero:opts.zero??false,ticks:{callback:v=>unit==='$'?'$'+v:unit==='%'?v+'%':v},...(opts.yextra||{})}}};}
+function L(label,key,color,o={}){return {label,data:W.map(w=>w[key]),borderColor:color,
+  backgroundColor:o.fill?color+'16':'transparent',fill:!!o.fill,tension:.34,borderWidth:o.bw||2.3,
+  borderDash:o.dash||[],pointRadius:o.pts?ptR():(o.r??0),pointBackgroundColor:o.pts?ptC():color,
+  pointBorderColor:'#fff',pointBorderWidth:1.3,pointHoverRadius:5,spanGaps:true};}
+
+/* TABS */
+const TABS=[['overview','The Big Picture'],['decomp','Cost Decomposition'],['auction','Auction Cost'],
+  ['engage','Engagement Decay'],['volume','Volume vs Cost'],['objectives','WA vs Lead'],
+  ['courses','Course Trajectories'],['monthly','Monthly Roll-up'],['signals','Signals']];
+const bar=$('#tabbar');
+TABS.forEach(([id,t],i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');
+  b.dataset.tab=id;b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span>${t}`;b.onclick=()=>show(id);bar.appendChild(b);});
+const main=$('#main');
+TABS.forEach(([id])=>{const s=document.createElement('section');s.className='panel'+(id==='overview'?' show':'');s.id='p-'+id;main.appendChild(s);});
+const DONE={},R={};
+function show(id){ROOT.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));
+  ROOT.querySelectorAll('.panel').forEach(p=>p.classList.toggle('show',p.id==='p-'+id));
+  window.scrollTo({top:0});if(!DONE[id]){R[id]&&R[id]();DONE[id]=true;}}
+
+/* helpers for narrative numbers */
+const first=W[0],last=W[W.length-1];
+const peak=W.reduce((a,b)=>b.cpr>a.cpr?b:a), trough=W.reduce((a,b)=>b.cpr<a.cpr?b:a);
+const cpmChg=T.summary.cpm.chg, ctrChg=T.summary.ctr.chg, cprChg=T.summary.cpr.chg, cvrChg=T.summary.cvr.chg;
+function leg(items){return `<div class="legend-inline">${items.map(([c,t,d])=>`<span><i class="${d?'dash':''}" style="background:${d?'transparent':c};color:${c}"></i>${t}</span>`).join('')}</div>`;}
+
+/* ============ OVERVIEW ============ */
+R.overview=()=>{
+  const p=$('#p-overview');
+  p.innerHTML=`
+   <div class="hero">
+     <div class="eyebrow">The cost-behaviour thesis</div>
+     <div class="hero-thesis">Click-through has halved — yet cost per inquiry <em>barely moved</em>.</div>
+     <p class="hero-sub">Across 24 weeks (Jan–Jun), link CTR fell <b>${Math.abs(ctrChg).toFixed(0)}%</b> — a steady structural decline. Cost per inquiry rose only <b>${cprChg>=0?'+':''}${cprChg.toFixed(0)}%</b> (about ${money(T.summary.cpr.base)} → ${money(T.summary.cpr.recent)}) because <b>two stabilisers absorbed the hit</b>: CPM eased ${Math.abs(cpmChg).toFixed(0)}% after its February peak, and the click-to-inquiry rate (CVR) actually improved ${Math.abs(cvrChg).toFixed(0)}%. The cost is contained — but the CTR slide is the structural risk to watch.</p>
+   </div>
+   <div class="minirow">
+     ${mini('CPR — Jan→recent',money(T.summary.cpr.base)+' → '+money(T.summary.cpr.recent),cprChg,'blended cost / inquiry')}
+     ${mini('CTR — Jan→recent',pct(T.summary.ctr.base,2)+' → '+pct(T.summary.ctr.recent,2),ctrChg,'link click-through',true)}
+     ${mini('CPM — Jan→recent',money(T.summary.cpm.base)+' → '+money(T.summary.cpm.recent),cpmChg,'auction cost / 1k impr',false)}
+     ${mini('CVR — Jan→recent',pct(T.summary.cvr.base,1)+' → '+pct(T.summary.cvr.recent,1),cvrChg,'clicks → inquiries')}
+   </div>
+   <div class="grid g2">
+     <div class="card"><div class="card-head"><div><h3>Cost per inquiry, smoothed</h3><div class="ch-sub">Weekly CPR with 4-week moving average</div></div></div>
+       <div class="chart-box" style="height:300px"><canvas id="ov-cpr"></canvas></div>
+       ${leg([[C.crimson,'Weekly CPR'],[C.ink,'4-wk moving avg',true]])}</div>
+     <div class="card"><div class="card-head"><div><h3>What's holding cost down</h3><div class="ch-sub">CPM and CPR on the same scale — the gap is the buffer</div></div></div>
+       <div class="chart-box" style="height:300px"><canvas id="ov-cpmcpr"></canvas></div>
+       ${leg([[C.teal,'CPM (auction cost)'],[C.crimson,'CPR (cost / inquiry)']])}</div>
+   </div>
+   <div class="callout"><span class="cross"></span><p><b>The risk hiding in this chart.</b> Cost stayed contained on borrowed strength — an easing CPM and a conversion rate that happened to rise. Neither is under your direct control, and both can reverse. The one input you <i>do</i> control, creative click-through, has been sliding all period. <b>When CPM stops easing or CVR plateaus, the CTR decline lands directly on cost.</b> The decomposition tab isolates exactly that.</p></div>`;
+  mk('ov-cpr',{type:'line',data:{labels:labs,datasets:[L('Weekly CPR','cpr',C.crimson,{pts:1,fill:1}),L('4-wk avg','ma_cpr',C.ink,{dash:[5,4],bw:2})]},options:lineCfg('$')});
+  mk('ov-cpmcpr',{type:'line',data:{labels:labs,datasets:[L('CPM','cpm',C.teal,{fill:1}),L('CPR','cpr',C.crimson,{pts:1})]},options:lineCfg('$')});
+};
+function mini(lab,val,chg,d,goodWhenUp){
+  let dh='';
+  if(chg!=null){const up=chg>0;const good=goodWhenUp?up:!up;const cls=good?'delta-dn':'delta-up';
+    dh=`<div class="d"><span class="${cls}">${up?'▲':'▼'} ${Math.abs(chg).toFixed(0)}%</span> ${d}</div>`;}
+  else dh=`<div class="d delta-flat">${d}</div>`;
+  return `<div class="minicard"><div class="lab">${lab}</div><div class="v tnum">${val}</div>${dh}</div>`;
+}
+
+/* ============ DECOMPOSITION ============ */
+R.decomp=()=>{
+  const p=$('#p-decomp');
+  p.innerHTML=`
+   <div class="eyebrow">Section 02 — Cost decomposition</div>
+   <h2 class="sec">What actually drives the cost</h2>
+   <p class="sec-lede">Cost per inquiry is an identity: <b>CPR = CPM ÷ (CTR × CVR)</b>. Auction price, divided by how often people click and how often clicks convert. Indexing each driver to the January average shows exactly which force moved the cost — CTR is sliding, but cheaper CPM and a <i>rising</i> conversion rate are holding the line.</p>
+   <div class="card" style="margin-top:26px"><div class="card-head"><div><h3>Cost drivers, indexed to the January average = 100</h3><div class="ch-sub">Above 100 pushes CPR up · below 100 pulls it down</div></div></div>
+     <div class="chart-box" style="height:360px"><canvas id="dec"></canvas></div>
+     ${leg([[C.crimson,'CPR'],[C.teal,'CPM (÷ pushes cost down)'],[C.gold,'CTR (÷ weaker = cost up)'],[C.slate,'CVR (results/click)']])}</div>
+   <div class="grid g3">
+     ${driverCard('CPM','Auction cost',C.teal,cpmChg,'Eased after a February spike. A partial tailwind — but volatile, not a reliable one.',true)}
+     ${driverCard('CTR','Click-through',C.gold,ctrChg,'Falling fastest — creative relevance is eroding even at low frequency. This is the real cost pressure.',true)}
+     ${driverCard('CVR','Results / click',C.slate,cvrChg,'Improving — clicks convert to inquiries better than in January. The offer and message step are getting stronger, and this is quietly subsidising the CTR loss.',false)}
+   </div>
+   <div class="callout gold"><span class="cross"></span><p><b>Diagnosis.</b> CTR fell about ${Math.abs(ctrChg).toFixed(0)}%, which on its own would have driven cost sharply higher. It didn't, because <b>two forces pushed back</b>: CPM eased roughly ${Math.abs(cpmChg).toFixed(0)}% off its February peak, and CVR rose about ${Math.abs(cvrChg).toFixed(0)}%. Net, CPR moved only ${cprChg>=0?'+':''}${cprChg.toFixed(0)}%. The CVR gain and CPM relief are doing real work — but neither is guaranteed to continue. <b>The durable fix is still rebuilding CTR</b>: new hooks, fresh first-frames, and rotating creative before the click-rate decays further.</p></div>`;
+  mk('dec',{type:'line',data:{labels:labs,datasets:[
+    L('CPR','idx_cpr',C.crimson,{pts:1,bw:2.8}),L('CPM','idx_cpm',C.teal,{bw:2}),
+    L('CTR','idx_ctr',C.gold,{bw:2}),L('CVR','idx_cvr',C.slate,{bw:2,dash:[4,4]}),
+    {label:'baseline (100)',data:labs.map(()=>100),borderColor:'rgba(21,33,59,.25)',borderWidth:1,borderDash:[2,3],pointRadius:0,fill:false,tension:0}]},
+    options:{...lineCfg('idx'),plugins:{legend:{display:false},tooltip:{...tip,callbacks:{title:c=>'Week of 2026-'+c[0].label,label:c=>` ${c.dataset.label}: ${c.raw==null?'—':'index '+c.raw}`}}}}});
+};
+function driverCard(name,sub,color,chg,desc,goodDown){
+  const up=chg>0;const cls=goodDown?(up?'delta-up':'delta-dn'):(up?'delta-dn':'delta-up');
+  return `<div class="card" style="padding:22px"><div style="display:flex;justify-content:space-between;align-items:center">
+    <div><div style="font-family:'Fraunces',serif;font-size:19px;font-weight:600">${name}</div><div style="font-size:12px;color:var(--muted)">${sub}</div></div>
+    <div class="bignum" style="font-size:26px;color:${color}">${up?'+':''}${chg.toFixed(0)}%</div></div>
+    <p style="font-size:12.8px;color:var(--ink-soft);margin-top:13px;line-height:1.55">${desc}</p></div>`;
+}
+
+/* ============ AUCTION COST ============ */
+R.auction=()=>{
+  const p=$('#p-auction');
+  const cpmMin=W.reduce((a,b)=>b.cpm<a.cpm?b:a),cpmMax=W.reduce((a,b)=>b.cpm>a.cpm?b:a);
+  p.innerHTML=`
+   <div class="eyebrow">Section 03 — Auction cost</div>
+   <h2 class="sec">Buying impressions got cheaper</h2>
+   <p class="sec-lede">CPM trended down across the period (slope ${T.slope.cpm}/week), from ${money(cpmMax.cpm)} to a low of ${money(cpmMin.cpm)}. Cost per link click stayed remarkably stable around ${money(last.cpc_link)} — cheap clicks are a constant strength of this account.</p>
+   <div class="grid g2">
+     <div class="card"><div class="card-head"><div><h3>CPM — cost per 1,000 impressions</h3><div class="ch-sub">With 4-week moving average</div></div></div>
+       <div class="chart-box" style="height:280px"><canvas id="au-cpm"></canvas></div>${leg([[C.teal,'Weekly CPM'],[C.ink,'4-wk avg',true]])}</div>
+     <div class="card"><div class="card-head"><div><h3>Cost per click</h3><div class="ch-sub">Link clicks vs all clicks</div></div></div>
+       <div class="chart-box" style="height:280px"><canvas id="au-cpc"></canvas></div>${leg([[C.crimson,'CPC (link)'],[C.gold,'CPC (all clicks)']])}</div>
+   </div>
+   <div class="callout teal"><span class="cross"></span><p><b>What this means operationally.</b> Cheap, falling CPM usually signals you are reaching new, less-contested inventory rather than re-buying the same expensive audiences — consistent with the low frequency in the account. It is a green light to <b>scale reach</b>. But treat it as borrowed time: as the account matures and competition rises around intake season, expect CPM to flatten, which makes the CTR work in the previous tab urgent rather than optional.</p></div>`;
+  mk('au-cpm',{type:'line',data:{labels:labs,datasets:[L('CPM','cpm',C.teal,{pts:1,fill:1}),L('4-wk avg','ma_cpm',C.ink,{dash:[5,4],bw:2})]},options:lineCfg('$')});
+  mk('au-cpc',{type:'line',data:{labels:labs,datasets:[L('CPC link','cpc_link',C.crimson,{pts:1}),L('CPC all','cpc_all',C.gold,{})]},options:lineCfg('$')});
+};
+
+/* ============ ENGAGEMENT ============ */
+R.engage=()=>{
+  const p=$('#p-engage');
+  p.innerHTML=`
+   <div class="eyebrow">Section 04 — Engagement decay</div>
+   <h2 class="sec">The click-rate is sliding</h2>
+   <p class="sec-lede">Link CTR fell from ${pct(T.summary.ctr.base,2)} to ${pct(T.summary.ctr.recent,2)} across the period (slope ${T.slope.ctr}/week) — a steady erosion, not a cliff. Crucially this happens <b>at low frequency</b>, so it is relevance/creative decay rather than over-exposure. Conversion of clicks (CVR) moved the other way and <i>improved</i> ${Math.abs(cvrChg).toFixed(0)}%, which tells you the leak is at the hook, not the offer.</p>
+   <div class="grid g2">
+     <div class="card"><div class="card-head"><div><h3>Click-through rate</h3><div class="ch-sub">Link CTR vs all-click CTR</div></div></div>
+       <div class="chart-box" style="height:280px"><canvas id="en-ctr"></canvas></div>${leg([[C.crimson,'CTR (link)'],[C.gold,'CTR (all clicks)']])}</div>
+     <div class="card"><div class="card-head"><div><h3>Click → inquiry conversion</h3><div class="ch-sub">Results per link click (CVR %)</div></div></div>
+       <div class="chart-box" style="height:280px"><canvas id="en-cvr"></canvas></div>${leg([[C.slate,'CVR — results / click']])}</div>
+   </div>
+   <div class="grid g2">
+     <div class="card"><div class="card-head"><div><h3>Frequency stays low</h3><div class="ch-sub">Avg impressions per person per week</div></div></div>
+       <div class="chart-box" style="height:240px"><canvas id="en-freq"></canvas></div>
+       <p class="note">Frequency never breaches ~1.7 — fatigue from over-exposure is <b>not</b> the cause of the CTR decline. The creatives themselves are losing pull.</p></div>
+     <div class="card"><div class="card-head"><div><h3>Correlation check</h3><div class="ch-sub">What moves with weekly CPR</div></div></div>
+       ${corrRow('CTR (link)',T.corr.ctr_cpr,'Higher CTR weeks → lower CPR. The strongest healthy lever.')}
+       ${corrRow('CPM',T.corr.cpm_cpr,'Weak — auction price is not the main swing factor week to week.')}
+       ${corrRow('Frequency',T.corr.freq_cpr,'Near zero — confirms no fatigue penalty.')}
+       ${corrRow('Spend',T.corr.spend_cpr,'Mild positive — spending up nudges CPR up slightly (gentle diminishing returns).')}
+     </div>
+   </div>`;
+  mk('en-ctr',{type:'line',data:{labels:labs,datasets:[L('CTR link','ctr_link',C.crimson,{pts:1,fill:1}),L('CTR all','ctr_all',C.gold,{})]},options:lineCfg('%',{pd:2})});
+  mk('en-cvr',{type:'line',data:{labels:labs,datasets:[L('CVR','cvr',C.slate,{pts:1,fill:1})]},options:lineCfg('%',{pd:1,zero:false})});
+  mk('en-freq',{type:'line',data:{labels:labs,datasets:[L('Frequency','freq',C.gold,{pts:1,fill:1})]},options:{...lineCfg(''),scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:10}},y:{grid:{color:grid},min:1,max:2,ticks:{stepSize:.25}}}}});
+};
+function corrRow(name,v,desc){
+  const mag=Math.abs(v);const w=mag*100;const col=v<0?C.good:C.crimson;
+  return `<div style="margin:14px 0"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:500">${name}</span><span class="tnum" style="font-family:'IBM Plex Mono';color:${col};font-weight:600">r = ${v>0?'+':''}${v}</span></div>
+   <div class="rbar" style="height:7px;background:var(--line)"><i style="width:${w}%;background:${col}"></i></div>
+   <div style="font-size:11.5px;color:var(--muted);margin-top:6px">${desc}</div></div>`;
+}
+
+/* ============ VOLUME vs COST ============ */
+R.volume=()=>{
+  const p=$('#p-volume');
+  p.innerHTML=`
+   <div class="eyebrow">Section 05 — Volume vs cost</div>
+   <h2 class="sec">Does spending more cost more?</h2>
+   <p class="sec-lede">Each dot is a week: spend on the x-axis, cost per inquiry on the y. The relationship is weak (r = ${T.corr.spend_cpr}) — you have <b>real headroom to scale</b> before efficiency breaks down. There is no steep diminishing-returns wall in this range.</p>
+   <div class="grid g2">
+     <div class="card"><div class="card-head"><div><h3>Weekly spend vs CPR</h3><div class="ch-sub">Bubble size = inquiries that week</div></div></div>
+       <div class="chart-box" style="height:320px"><canvas id="vo-sc"></canvas></div></div>
+     <div class="card"><div class="card-head"><div><h3>Spend &amp; inquiries, week by week</h3><div class="ch-sub">Volume rhythm with the Avurudu pause</div></div></div>
+       <div class="chart-box" style="height:320px"><canvas id="vo-bars"></canvas></div>${leg([[C.ink,'Spend'],[C.crimson,'Inquiries']])}</div>
+   </div>
+   <div class="callout"><span class="cross"></span><p><b>Scaling read.</b> The flat spend↔CPR cloud means budget increases have <i>not</i> historically punished efficiency — partly because falling CPM gave you room. Scale in measured steps (≈20–30% per week) on the proven lines (PRE, the cheap lead campaigns), watch CPR and CTR together, and pull back only if both deteriorate at once. A single high-spend week with stable CPR is your green light to hold the new level.</p></div>`;
+  const pts=W.map(w=>({x:w.spend,y:w.cpr,r:Math.max(5,Math.sqrt(w.results)*1.0),wk:w.week,res:w.results,av:!!FLAG[w.week]}));
+  mk('vo-sc',{type:'bubble',data:{datasets:[{label:'Week',data:pts,backgroundColor:pts.map(p=>p.av?C.gold+'cc':C.crimson+'bb'),borderColor:pts.map(p=>p.av?C.gold:C.crimson),borderWidth:1}]},
+    options:{maintainAspectRatio:false,plugins:{tooltip:{...tip,callbacks:{title:c=>'Week of '+c[0].raw.wk,label:c=>[` Spend ${money(c.raw.x,0)}`,` CPR ${money(c.raw.y)}`,` Inquiries ${int(c.raw.res)}`]}}},
+      scales:{x:{grid:{color:grid},title:{display:true,text:'Weekly spend (USD)',color:C.muted,font:{size:10}},ticks:{callback:v=>'$'+v}},
+        y:{grid:{color:grid},title:{display:true,text:'CPR (USD)',color:C.muted,font:{size:10}},ticks:{callback:v=>'$'+v}}}}});
+  mk('vo-bars',{type:'bar',data:{labels:labs,datasets:[
+    {type:'bar',label:'Spend',data:W.map(w=>w.spend),backgroundColor:W.map(w=>FLAG[w.week]?C.gold:'rgba(21,33,59,.82)'),borderRadius:4,yAxisID:'y',order:2,barPercentage:.66},
+    {type:'line',label:'Inquiries',data:W.map(w=>w.results),borderColor:C.crimson,backgroundColor:'transparent',tension:.34,borderWidth:2.3,pointRadius:0,pointHoverRadius:4,yAxisID:'y1',order:1}]},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{tooltip:{...tip,callbacks:{title:c=>'Week of 2026-'+c[0].label,label:c=>c.dataset.label==='Spend'?` Spend ${money(c.raw,0)}`:` Inquiries ${int(c.raw)}`}}},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+        y:{grid:{color:grid},beginAtZero:true,position:'left',ticks:{callback:v=>'$'+v}},
+        y1:{grid:{display:false},beginAtZero:true,position:'right',ticks:{color:C.crimson}}}}});
+};
+
+/* ============ OBJECTIVES ============ */
+R.objectives=()=>{
+  const p=$('#p-objectives');const wa=T.wa_weekly,ld=T.lead_weekly;
+  const wkmap=o=>{const m={};o.forEach(x=>m[x.week]=x);return m;};
+  const wm=wkmap(wa),lm=wkmap(ld);
+  const waCpr=T.weeks.map(w=>wm[w]?wm[w].cpr:null), ldCpr=T.weeks.map(w=>lm[w]?lm[w].cpr:null);
+  const waCpm=T.weeks.map(w=>wm[w]?wm[w].cpm:null), ldCpm=T.weeks.map(w=>lm[w]?lm[w].cpm:null);
+  const waCtr=T.weeks.map(w=>wm[w]?wm[w].ctr:null), ldCtr=T.weeks.map(w=>lm[w]?lm[w].ctr:null);
+  const ldvals=ldCpr.filter(v=>v!=null);
+  p.innerHTML=`
+   <div class="eyebrow">Section 06 — Objective split</div>
+   <h2 class="sec">Two cost rhythms</h2>
+   <p class="sec-lede">WhatsApp CPR is the metronome — a tight band between ${money(Math.min(...waCpr.filter(v=>v)))} and ${money(Math.max(...waCpr.filter(v=>v)))}. Lead-form CPR is the wild card, swinging from ${money(Math.min(...ldvals))} to ${money(Math.max(...ldvals))}. Managing this account is largely about taming the lead line without losing the contact-data it captures.</p>
+   <div class="grid g2">
+     <div class="card"><div class="card-head"><div><h3>Cost per inquiry — WA vs Lead</h3><div class="ch-sub">Weekly</div></div></div>
+       <div class="chart-box" style="height:290px"><canvas id="ob-cpr"></canvas></div>${leg([[C.crimson,'WhatsApp'],[C.gold,'Lead form',true]])}</div>
+     <div class="card"><div class="card-head"><div><h3>Auction cost — WA vs Lead</h3><div class="ch-sub">Weekly CPM</div></div></div>
+       <div class="chart-box" style="height:290px"><canvas id="ob-cpm"></canvas></div>${leg([[C.crimson,'WhatsApp'],[C.gold,'Lead form',true]])}</div>
+   </div>
+   <div class="card"><div class="card-head"><div><h3>Click-through — WA vs Lead</h3><div class="ch-sub">Weekly link CTR</div></div></div>
+     <div class="chart-box" style="height:250px"><canvas id="ob-ctr"></canvas></div>${leg([[C.crimson,'WhatsApp'],[C.gold,'Lead form',true]])}</div>
+   <div class="callout gold"><span class="cross"></span><p><b>The lead line is controllable.</b> Its CPM tracks WhatsApp closely, so the volatility is not auction-driven — it is the <b>form and offer</b>. The sharp March–April spike coincided with weak lead weeks; the May recovery came when a single well-built campaign took over. Standardise every lead campaign on that winner's form length, creative, and audience, and the swings flatten.</p></div>`;
+  const cpr2=(a,b)=>({type:'line',data:{labels:labs,datasets:[
+    {label:'WhatsApp',data:a,borderColor:C.crimson,tension:.34,borderWidth:2.4,pointRadius:0,pointHoverRadius:4,spanGaps:true},
+    {label:'Lead form',data:b,borderColor:C.gold,borderDash:[5,4],tension:.34,borderWidth:2.4,pointRadius:0,pointHoverRadius:4,spanGaps:true}]},
+    options:lineCfg('$')});
+  mk('ob-cpr',cpr2(waCpr,ldCpr));mk('ob-cpm',cpr2(waCpm,ldCpm));
+  mk('ob-ctr',{type:'line',data:{labels:labs,datasets:[
+    {label:'WhatsApp',data:waCtr,borderColor:C.crimson,tension:.34,borderWidth:2.4,pointRadius:0,pointHoverRadius:4,spanGaps:true},
+    {label:'Lead form',data:ldCtr,borderColor:C.gold,borderDash:[5,4],tension:.34,borderWidth:2.4,pointRadius:0,pointHoverRadius:4,spanGaps:true}]},options:lineCfg('%',{pd:2})});
+};
+
+/* ============ COURSES ============ */
+R.courses=()=>{
+  const p=$('#p-courses');const cols={'PRE':C.crimson,'TESOL':C.ink,'BTEC ECE':C.gold,'TEFL':C.teal,'MEd':C.violet,'DTESL':C.slate};
+  p.innerHTML=`
+   <div class="eyebrow">Section 07 — Course trajectories</div>
+   <h2 class="sec">Which courses are trending where</h2>
+   <p class="sec-lede">Weekly cost per inquiry by course. Lines breathe with intake timing — campaigns launch, mature, and retire — but the <b>relative ordering is stable</b>: PRE and DTESL anchor the cheap end, TESOL and MEd ride higher. Gaps mean no active spend that week.</p>
+   <div class="card" style="margin-top:24px"><div class="card-head"><div><h3>CPR by course, weekly</h3><div class="ch-sub">Lower is better</div></div></div>
+     <div class="chart-box" style="height:340px"><canvas id="co-cpr"></canvas></div>
+     ${leg(T.top_courses.map(c=>[cols[c],c]))}</div>
+   <div class="card" style="margin-top:22px"><div class="card-head"><div><h3>Spend allocation over time</h3><div class="ch-sub">Where budget flowed each week (stacked)</div></div></div>
+     <div class="chart-box" style="height:320px"><canvas id="co-sp"></canvas></div></div>
+   <div class="callout teal"><span class="cross"></span><p><b>Reading the rotation.</b> The stacked view shows budget shifting between intakes as batches open and close — healthy campaign hygiene. PRE keeps the largest, steadiest band, which is why it is the safest place to add budget. Watch for courses whose CPR line drifts up <i>while</i> their spend band grows — that is the early signal to refresh creative before the cost compounds.</p></div>`;
+  mk('co-cpr',{type:'line',data:{labels:labs,datasets:T.top_courses.map(c=>({label:c,data:T.course_cpr[c],borderColor:cols[c],backgroundColor:'transparent',tension:.3,borderWidth:2.2,pointRadius:0,pointHoverRadius:4,spanGaps:false}))},
+    options:lineCfg('$',{legend:{display:false}})});
+  const order=[...T.top_courses,'Other'];const ocol={...cols,'Other':'#C9C3B5'};
+  mk('co-sp',{type:'bar',data:{labels:labs,datasets:order.map(c=>({label:c,data:T.course_spend[c],backgroundColor:ocol[c],borderWidth:0}))},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:true,position:'top',labels:{boxWidth:9,boxHeight:9,font:{size:10.5},padding:7,usePointStyle:true}},
+        tooltip:{...tip,callbacks:{title:c=>'Week of 2026-'+c[0].label,label:c=>c.raw>0?` ${c.dataset.label}: ${money(c.raw,0)}`:null,footer:items=>'Total '+money(items.reduce((a,b)=>a+b.raw,0),0)}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+        y:{stacked:true,grid:{color:grid},beginAtZero:true,ticks:{callback:v=>'$'+v}}}}});
+};
+
+/* ============ MONTHLY ============ */
+R.monthly=()=>{
+  const p=$('#p-monthly');const mlab=MO.map(m=>({'2026-02':'Feb','2026-03':'Mar','2026-04':'Apr','2026-05':'May','2026-06':'Jun*'}[m.month]||m.month));
+  p.innerHTML=`
+   <div class="eyebrow">Section 08 — Monthly roll-up</div>
+   <h2 class="sec">The story at month grain</h2>
+   <p class="sec-lede">Stepping back from weekly noise: cost per inquiry sat near ${money(MO[0].cpr)} in January, rose through Q1 into April, then eased back to ${money(MO[MO.length-1].cpr)}. <b>CPM peaked in February</b> and has fallen every month since, while CTR declined over the longer run. January and the most recent weeks look the most efficient. <b>June is partial</b> (one week of data).</p>
+   <div class="grid g2">
+     <div class="card"><div class="card-head"><div><h3>CPR &amp; CPM by month</h3><div class="ch-sub">Same scale — the two cost forces</div></div></div>
+       <div class="chart-box" style="height:280px"><canvas id="mo-cost"></canvas></div>${leg([[C.crimson,'CPR'],[C.teal,'CPM']])}</div>
+     <div class="card"><div class="card-head"><div><h3>CTR by month</h3><div class="ch-sub">Link click-through, monthly</div></div></div>
+       <div class="chart-box" style="height:280px"><canvas id="mo-ctr"></canvas></div>${leg([[C.gold,'CTR (link)']])}</div>
+   </div>
+   <div class="tbl-scroll" style="margin-top:24px"><table><thead><tr>
+     <th>Month</th><th>Spend</th><th>Inquiries</th><th>CPR</th><th>CPM</th><th>CPC</th><th>CTR</th><th>Impr.</th></tr></thead><tbody>
+     ${MO.map((m,i)=>`<tr><td>${mlab[i]}</td><td class="tnum">${money(m.spend,0)}</td><td class="tnum">${int(m.results)}</td>
+       <td class="tnum ${m.cpr<1.15?'cpr-good':m.cpr<1.5?'cpr-mid':'cpr-bad'}">${money(m.cpr)}</td>
+       <td class="tnum">${money(m.cpm)}</td><td class="tnum">${money(m.cpc)}</td><td class="tnum">${pct(m.ctr)}</td><td class="tnum muted-cell">${k(m.impressions)}</td></tr>`).join('')}
+   </tbody></table></div>
+   <p class="note">* June reflects a single reporting week (1–12 Jun) and is not directly comparable to full months.</p>`;
+  mk('mo-cost',{type:'line',data:{labels:mlab,datasets:[
+    {label:'CPR',data:MO.map(m=>m.cpr),borderColor:C.crimson,backgroundColor:C.crimson+'14',fill:true,tension:.3,borderWidth:2.6,pointRadius:4,pointBackgroundColor:C.crimson,pointBorderColor:'#fff',pointBorderWidth:1.5},
+    {label:'CPM',data:MO.map(m=>m.cpm),borderColor:C.teal,backgroundColor:'transparent',tension:.3,borderWidth:2.6,pointRadius:4,pointBackgroundColor:C.teal,pointBorderColor:'#fff',pointBorderWidth:1.5}]},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>` ${c.dataset.label}: ${money(c.raw)}`}}},
+      scales:{x:{grid:{display:false}},y:{grid:{color:grid},beginAtZero:false,ticks:{callback:v=>'$'+v}}}}});
+  mk('mo-ctr',{type:'bar',data:{labels:mlab,datasets:[{label:'CTR',data:MO.map(m=>m.ctr),backgroundColor:C.gold,borderRadius:6,barPercentage:.55}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tip,callbacks:{label:c=>` CTR: ${pct(c.raw)}`}}},
+      scales:{x:{grid:{display:false}},y:{grid:{color:grid},beginAtZero:true,ticks:{callback:v=>v+'%'}}}}});
+};
+
+/* ============ SIGNALS ============ */
+R.signals=()=>{
+  const p=$('#p-signals');
+  const wow=W.map((w,i)=>({...w,prev:i>0?W[i-1]:null}));
+  p.innerHTML=`
+   <div class="eyebrow">Section 09 — Signals &amp; deltas</div>
+   <h2 class="sec">Week-over-week, at a glance</h2>
+   <p class="sec-lede">The full weekly ledger with cost behaviour and week-over-week CPR movement. Green CPR deltas are improvements; red are deteriorations. The trend slopes below summarise direction across the whole period.</p>
+   <div class="minirow">
+     ${sigCard('CPR trend',T.slope.cpr>0?'Rising':'Falling',T.slope.cpr,'$ /week',T.slope.cpr>0)}
+     ${sigCard('CPM trend','Falling',T.slope.cpm,'$ /week',false)}
+     ${sigCard('CTR trend','Falling',T.slope.ctr,'% /week',true)}
+     ${sigCard('Best week',trough.week.slice(5),null,money(trough.cpr)+' CPR',false)}
+   </div>
+   <div class="tbl-scroll" style="margin-top:26px"><table><thead><tr>
+     <th>Week</th><th>Spend</th><th>Inquiries</th><th>CPR</th><th>WoW</th><th>CPM</th><th>CPC</th><th>CTR</th><th>CVR</th><th>Freq</th></tr></thead><tbody>
+     ${wow.map(w=>{const d=w.wow_cpr;const dc=d==null?'delta-flat':d>1?'delta-up':d<-1?'delta-dn':'delta-flat';const ds=d==null?'—':`${d>0?'+':''}${d}%`;
+       const av=FLAG[w.week]?' style="background:#FBF4E6"':'';
+       return `<tr${av}><td>${w.week}${FLAG[w.week]?' · '+FLAG[w.week]:''}</td><td class="tnum">${money(w.spend,0)}</td><td class="tnum">${int(w.results)}</td>
+       <td class="tnum">${money(w.cpr)}</td><td class="tnum ${dc}">${ds}</td><td class="tnum">${money(w.cpm)}</td>
+       <td class="tnum muted-cell">${money(w.cpc_link)}</td><td class="tnum">${pct(w.ctr_link)}</td><td class="tnum muted-cell">${pct(w.cvr,1)}</td><td class="tnum muted-cell">${w.freq}</td></tr>`;}).join('')}
+   </tbody></table></div>
+   <div class="callout"><span class="cross"></span><p><b>How to use this tab weekly.</b> Scan the WoW column for any CPR jump above +15%, then check the same row's CPM and CTR: if CPM is flat and CTR dropped, it is a creative problem (refresh ads); if CPM jumped, it is auction pressure (usually seasonal, ride it out or shift budget to cheaper provinces/placements). A CPR rise with stable CPM and CTR but falling CVR points to the offer or landing step. This three-way check turns a number into a decision.</p></div>`;
+};
+function sigCard(lab,headline,slope,unit,bad){
+  const arrow = slope==null ? '' : (slope>0?'▲':'▼');
+  const col = slope==null?C.ink:(bad?C.bad:C.good);
+  const sub = slope==null?unit:`${arrow} ${Math.abs(slope)} ${unit}`;
+  return `<div class="minicard"><div class="lab">${lab}</div><div class="v" style="color:${col}">${headline}</div><div class="d" style="color:${col}">${sub}</div></div>`;
+}
+const Cbad=C.crimson; // alias
+C.bad=C.crimson;
+
+/* boot */
+window.__initTrends=function(){if(!DONE.overview){R.overview();DONE.overview=true;}};
+
+})();
+
+
+(function(){
+  const views={perf:document.getElementById('view-perf'),trends:document.getElementById('view-trends')};
+  function sw(v){
+    Object.keys(views).forEach(key=>views[key].classList.toggle('show',key===v));
+    document.querySelectorAll('.viewswitch button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+    if(v==='trends')window.__initTrends&&window.__initTrends();
+    window.scrollTo({top:0});
+  }
+  document.querySelectorAll('.viewswitch button').forEach(b=>b.onclick=()=>sw(b.dataset.v));
+})();
+
+</script>
+</body>
+</html>
