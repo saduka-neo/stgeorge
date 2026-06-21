@@ -1071,7 +1071,7 @@ R.monthly=()=>{
        <td class="tnum ${m.cpr<1.15?'cpr-good':m.cpr<1.5?'cpr-mid':'cpr-bad'}">${money(m.cpr)}</td>
        <td class="tnum">${money(m.cpm)}</td><td class="tnum">${money(m.cpc)}</td><td class="tnum">${pct(m.ctr)}</td><td class="tnum muted-cell">${k(m.impressions)}</td></tr>`).join('')}
    </tbody></table></div>
-   <p class="note">* June reflects a single reporting week (1–12 Jun) and is not directly comparable to full months.</p>`;
+   <p class="note">* June reflects a single reporting week (1–12 Jun.) and is not directly comparable to full months.</p>`;
   mk('mo-cost',{type:'line',data:{labels:mlab,datasets:[
     {label:'CPR',data:MO.map(m=>m.cpr),borderColor:C.crimson,backgroundColor:C.crimson+'14',fill:true,tension:.3,borderWidth:2.6,pointRadius:4,pointBackgroundColor:C.crimson,pointBorderColor:'#fff',pointBorderWidth:1.5},
     {label:'CPM',data:MO.map(m=>m.cpm),borderColor:C.teal,backgroundColor:'transparent',tension:.3,borderWidth:2.6,pointRadius:4,pointBackgroundColor:C.teal,pointBorderColor:'#fff',pointBorderWidth:1.5}]},
